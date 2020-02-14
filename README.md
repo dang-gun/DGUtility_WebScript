@@ -9,6 +9,7 @@
 <br />
 [테스트](https://github.com/dang-gun/DG_JavaScript_Utility/DG_IsObject/IsObjectTest.html)
 <br />
+[테스트](https://github.com/dang-gun/DG_JavaScript_Utility/DG_JsDataBind/test/index.html)
 <br />
 <br />
 ## DG_JsDataBind
