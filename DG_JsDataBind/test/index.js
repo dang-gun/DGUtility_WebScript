@@ -12,7 +12,7 @@ var sOriData = "test001 => {{test001}}, \n"
     + "test002:test2 => {{test002:test2}}\n";
 
 function OnStart00() {
-    //기본정 샘플
+    //기본 샘플
 
     var sOriData_InData = domTxtInData.value;
 
@@ -78,6 +78,31 @@ function OnStart02()
                 , "test002": "test-002"
             }
             , DG_JsDataBind_MatchType.Select
+        );
+
+    domTxtResult.value = sReturn.ResultString;
+}
+
+function OnStart03()
+{
+    //매치 리스트 추가 샘플
+
+    var sOriData_InData = domTxtInData.value;
+
+    insDB.MatchPatternListAdd("AddTest"
+        , {
+            ":test1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+            , ":test2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+        });
+
+
+    var sReturn =
+        insDB.DataBind_All(
+            sOriData_InData
+            , {
+                "test001": "test-001"
+                , "test002": "test-002"
+            }
         );
 
     domTxtResult.value = sReturn.ResultString;
