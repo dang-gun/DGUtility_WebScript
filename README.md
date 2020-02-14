@@ -2,7 +2,8 @@
 직접 만든 자바스크립트용 유틸리티 &amp; 라이브러리<br />
 <br />
 <br />
-## DG_IsObject<br />
+## DG_IsObject
+<br />
 <br />
 오브젝트가 지정한 형식인지 확인하는 라이브러리입니다.<br />
 <br />
@@ -13,7 +14,8 @@
 <br />
 <br />
 <br />
-## DG_JsDataBind<br />
+## DG_JsDataBind
+<br />
 [JsDataBind 1.0 - 문자열에 데이터 바인딩 해주는 자바스크립트 라이브러리](https://blog.danggun.net/7449)
 <br />
 <br />
