@@ -28,8 +28,9 @@ dgIsObject.IsBool = function (objData)
 
 /**
  * 들어온 오브젝트가 bool값인지 여부 판단하고 값을 리턴한다.
- * 들어온 타입이 'bool'이 아니면 false가 리턴된다.
+ * 들어온 타입이 bool이 아니면 false가 리턴된다.
  * true나 false로 판단이 가능하면 판단된 값이 리턴된다.
+ * 들어온 타입이 string 이면 "true"나 "false"값인지 판단하여 리턴한다.
  * @param {object} objData 판단할 오브젝트
  * @returns {boolean} 값의 판단 여부.
  */
@@ -39,6 +40,13 @@ dgIsObject.IsBoolValue = function (objData)
     if (true === dgIsObject.IsBool(objData))
     {//들어온 값이 bool값이다.
         bReturn = objData;
+    }
+    else if (true === dgIsObject.IsString(objData))
+    {//들어온 값이 string값이다.
+        if ("true" === objData)
+        {
+            bReturn = true;
+        }
     }
 
     return bReturn;
@@ -89,6 +97,25 @@ dgIsObject.IsInt = function (objData) {
 
     if (true === Number.isInteger(bReturn)) {
         bReturn = true;
+    }
+
+    return bReturn;
+};
+
+
+/**
+ * 들어온 오브젝트를 int로 변환한다.
+ * int로 변환 불가능한 값인 경우 0으로 변환됨.
+ * @param {object} objData 판단할 오브젝트
+ * @returns {int} int로 변환된 값
+ */
+dgIsObject.IsIntValue = function (objData)
+{
+    var bReturn = 0;
+
+    if (false === isNaN(objData))
+    {//숫자형이다.
+        bReturn = Number(objData);
     }
 
     return bReturn;

@@ -33,16 +33,19 @@
         {
             var bTest01 = false;
             var bTest02 = null;
+            var bTest03 = "true";
 
             var sString01 = "ddasdfx";
             var sString02 = 10;
 
             var nInt01 = 101;
             var nInt02 = "dfasdf";
+            var nInt03 = "102";
 
             console.log("bTest01 : " + dgIsObject.IsBool(bTest01));
             console.log("bTest02 : " + dgIsObject.IsBool(bTest02));
             console.log("bTest01 Value : " + dgIsObject.IsBoolValue(bTest01));
+            console.log("bTest03 Value : " + dgIsObject.IsBoolValue(bTest03));
             console.log(" ");
             console.log("sString01 : " + dgIsObject.IsString(sString01));
             console.log("sString02 : " + dgIsObject.IsString(sString02));
@@ -50,6 +53,7 @@
             console.log(" ");
             console.log("nInt01 : " + dgIsObject.IsInt(nInt01));
             console.log("nInt02 : " + dgIsObject.IsInt(nInt02));
+            console.log("nInt03 : " + dgIsObject.IsIntValue(nInt03));
         }
     </script>
 </body>
