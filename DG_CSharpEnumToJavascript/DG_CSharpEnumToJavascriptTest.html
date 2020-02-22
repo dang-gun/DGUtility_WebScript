@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <style>
+        #txtOri, #txtOutput {
+            width:500px;
+            height:500px;
+        }
+    </style>
+
+    <!-- jquery 3.4.1 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <script src="DG_CSharpEnumToJavascript.js"></script>
+</head>
+
+<body>
+    DG_CSharpEnumToJavascriptTest <br />
+    C# 열거형 맴버 선언을 자바스크립트 열거형 맴버로 변환<br />
+    <br />
+    <button onclick="Converter();">변환</button>
+    <br />
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <textarea id="txtOri">
+    public enum ManagerPermissionType
+    {
+        /// <summary>
+        /// 권한 없음.
+        /// 권한이 없으면 사용할 수 없는 계정이다.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 최상위
+        /// </summary>
+        Root = 1 << 0,
+        /// <summary>
+        /// 개발자
+        /// 최상위와 똑같지만 하위 매장을 붙일 수 없다.
+        /// </summary>
+        RootDev = 1 << 1,
+
+        /// <summary>
+        /// 관리자.
+        /// 일반 유저는 붙일 수 없다.
+        /// </summary>
+        Admin = 1 << 100,
+
+        /// <summary>
+        /// 본사.
+        /// 본사는 일반매장 권한도 추가해줘야 한다.
+        /// </summary>
+        ShopHead = 1 << 10000,
+
+        /// <summary>
+        /// 일반 매장
+        /// </summary>
+        Shop = 1 << 11000,
+
+        /// <summary>
+        /// 테스트 메니저
+        /// </summary>
+        TestMgr = 1 << 40000,
+
+        /// <summary>
+        /// 모든 권한.
+        /// root는 무조건 전체 권한을 준다.
+        /// </summary>
+        All = int.MaxValue
+    }
+</textarea>
+                </td>
+                <td>
+                    <textarea id="txtOutput"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function test01()
+        {
+
+        }
+    </script>
+</body>
+
+</html>
