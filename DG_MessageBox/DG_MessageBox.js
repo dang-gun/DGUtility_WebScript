@@ -49,7 +49,10 @@ DG_MessageBox.Show = function (jsonOption)
         //버튼 이벤트
         //function (DG_MessageBox.ButtonType)
         //DG_MessageBox.ButtonType : 클릭된 버튼 정보
-        ButtonEvent: null
+        ButtonEvent: null,
+
+        //컨탠츠에 적용할 css
+        ContentCss: "DG_MessageBoxContentCss",
     };
 
     //완성된 오브젝트
@@ -59,14 +62,14 @@ DG_MessageBox.Show = function (jsonOption)
     var divHtml = $(document.createDocumentFragment());
 
     //타이틀
-    var divTitle = $("<div class='DG_PopupTitle'>" + jsonOpt.Title + "</div>");
+    var divTitle = $("<div class='DG_PopupTitle DG_MessageBoxTitle'>" + jsonOpt.Title + "</div>");
 
     //컨탠츠
-    var divContent = $("<div class='DG_MessageBox'></div>");
+    var divContent = $("<div class='DG_MessageBoxContent'></div>");
     divContent.html(jsonOpt.Content);
 
     //푸터
-    var divFooter = $("<div></div>");
+    var divFooter = $("<div class='DG_MessageBoxFooter'></div>");
 
     if (jsonOpt.ButtonType === DG_MessageBox.ButtonShowType.Ok
         || jsonOpt.ButtonType === DG_MessageBox.ButtonShowType.OkCancel)
