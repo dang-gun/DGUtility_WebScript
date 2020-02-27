@@ -32,6 +32,12 @@
         <option value="3">Cancel</option>
         <option value="4">YesNo</option>
     </select>
+    <select id="selectBigIconType">
+        <option value="0">None</option>
+        <option value="1">Info</option>
+        <option value="2">Warning</option>
+        <option value="3">Error</option>
+    </select>
     <div>
         <button onclick="ShowMgr()">Message Box Show!</button>
     </div>
@@ -53,21 +59,22 @@
                 Content: "여기는 메시지 박스 출력입니다. " + nCount,
 
                 ButtonType: Number($("#selectBtnType").val()),
+                BigIconType: Number($("#selectBigIconType").val()),
                 ButtonEvent: function (btnType)
                 {
                     console.log("button : " + btnType);
                     DG_Popup.Close();
 
                     var TestContentsHtml = ' \
-                        <div class="divTitle DG_PopupTitle">버튼 결과! </div> \
-                        <div class="divContents"> \
-                            결과 :'+ btnType + ' <br />\
-                            <br />\
-                            <br />\
-                            <button onclick="DG_Popup.CloseAll()">All Close</button>\
-                            <br />\
-                            <button onclick="DG_Popup.Close()">Close</button>\
-                        </div>';
+                            <div class="divTitle DG_PopupTitle">버튼 결과! </div> \
+                            <div class="divContents"> \
+                                결과 :'+ btnType + ' <br />\
+                                <br />\
+                                <br />\
+                                <button onclick="DG_Popup.CloseAll()">All Close</button>\
+                                <br />\
+                                <button onclick="DG_Popup.Close()">Close</button>\
+                            </div>';
 
                     DG_Popup.Show({
                         Content: TestContentsHtml,

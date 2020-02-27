@@ -20,6 +20,13 @@ DG_MessageBox.ButtonType = {
     No: 3
 };
 
+DG_MessageBox.BigIconType = {
+    None: 0,
+    Info: 1,
+    Warning: 2,
+    Error: 3
+};
+
 
 /**
  * DG_JQuery_Popup를 초기화 한다.
@@ -45,6 +52,8 @@ DG_MessageBox.Show = function (jsonOption)
 
         //버튼 타입
         ButtonType: DG_MessageBox.ButtonShowType.Ok,
+        //큰 아이콘 타입
+        BigIconType: DG_MessageBox.BigIconType.None,
 
         //버튼 이벤트
         //function (DG_MessageBox.ButtonType)
@@ -52,7 +61,7 @@ DG_MessageBox.Show = function (jsonOption)
         ButtonEvent: null,
 
         //컨탠츠에 적용할 css
-        ContentCss: "DG_MessageBoxContentCss",
+        ContentCss: "DG_MessageBoxContentCss"
     };
 
     //완성된 오브젝트
@@ -66,11 +75,25 @@ DG_MessageBox.Show = function (jsonOption)
 
     //컨탠츠
     var divContent = $("<div class='DG_MessageBoxContent'></div>");
-    divContent.append("<div class='DG_MessageBoxBigIcon_info'></div>");
-    divContent.append("<div class='DG_MessageBoxContentHtml></div>");
-    var divContentFind = divContent.find("div");
-    $(divContentFind[1]).html(jsonOpt.Content);
-    //divContent.html(jsonOpt.Content);
+    //컨탠츠 - 큰 아이콘
+    switch (jsonOpt.BigIconType)
+    {
+        case DG_MessageBox.BigIconType.Info:
+            divContent.append("<div class='DG_MessageBoxBigIcon_info'></div>");
+            break;
+        case DG_MessageBox.BigIconType.Warning:
+            divContent.append("<div class='DG_MessageBoxBigIcon_Warning'></div>");
+            break;
+        case DG_MessageBox.BigIconType.Error:
+            divContent.append("<div class='DG_MessageBoxBigIcon_Error'></div>");
+            break;
+    }
+
+    //컨탠츠 - html 내용
+    var divContentHtml = $("<div class='DG_MessageBoxContentHtml'></div>");
+    divContentHtml.html(jsonOpt.Content);
+    divContent.append(divContentHtml);
+    
 
     //푸터
     var divFooter = $("<div class='DG_MessageBoxFooter'></div>");
