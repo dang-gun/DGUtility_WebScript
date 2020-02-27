@@ -1,12 +1,13 @@
-﻿.DG_MessageBoxTitle {
-    background: #b6ff00;
-    padding: 3px;
-    border-radius: 3px;
-}
-.DG_MessageBoxContentCss {
+﻿.DG_MessageBoxContentCss {
     border-radius: 3px;
     padding: 3px;
     margin: 3px;
+}
+
+.DG_MessageBoxTitle {
+    background: #b6ff00;
+    padding: 3px;
+    border-radius: 3px;
 }
 
 .DG_MessageBoxContent {
@@ -16,4 +17,15 @@
 
 .DG_MessageBoxFooter {
     text-align: center;
+}
+
+.DG_MessageBoxBigIcon_info {
+    background: radial-gradient(7em 7em at 35% 35%, red 50%, transparent 50%);
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 150px;
+}
+
+.DG_MessageBoxContentHtml {
+
 }

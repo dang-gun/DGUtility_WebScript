@@ -66,7 +66,11 @@ DG_MessageBox.Show = function (jsonOption)
 
     //컨탠츠
     var divContent = $("<div class='DG_MessageBoxContent'></div>");
-    divContent.html(jsonOpt.Content);
+    divContent.append("<div class='DG_MessageBoxBigIcon_info'></div>");
+    divContent.append("<div class='DG_MessageBoxContentHtml></div>");
+    var divContentFind = divContent.find("div");
+    $(divContentFind[1]).html(jsonOpt.Content);
+    //divContent.html(jsonOpt.Content);
 
     //푸터
     var divFooter = $("<div class='DG_MessageBoxFooter'></div>");
