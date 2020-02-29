@@ -44,6 +44,10 @@ DG_Popup.ShowOptionDefault = {
 
     /** 부모에 적용할 css */
     ParentCss: "",
+    /** 팝업이 완성되면 크기를 고정할지 여부 
+        이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+     */
+    SizeFixed: false,
 
     /** 팝업 안에 표시할 컨탠츠
      * 오브젝트도 가능하다. */
@@ -189,7 +193,17 @@ DG_Popup.Show = function (jsonOption)
 
     //새로 추가한 개체를 찾는다.****************************************
     var divPopupParent_New = $("#divDG_PopupParent" + nPopupIndex);
+    var divPopup_New = $("#divDG_Popup" + nPopupIndex);
     var divOverlay_New = $("#divDG_PopupOverlay" + nPopupIndex);
+
+    if (true === jsonOpt.SizeFixed)
+    {//크기 고정
+        //완성된 크기 받기
+        var nSize = divPopup_New.width();
+        //완성된 크기를 고정값으로 지정
+        divPopup_New.width(nSize);
+    }
+    
 
     //빈곳을 클릭했을때 이벤트 주기
     if (typeof jsonOpt.OverlayClick === "function")

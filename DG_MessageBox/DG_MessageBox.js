@@ -35,6 +35,11 @@ DG_MessageBox.BigIconType = {
 
 /** 창열기 기본 옵션 */
 DG_MessageBox.ShowOptionDefault = {
+    /** 팝업이 완성되면 크기를 고정할지 여부 
+        이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+     */
+    SizeFixed: true,
+
     //제목
     Title: "",
     //내용
@@ -84,6 +89,16 @@ DG_MessageBox.Show = function (jsonOption)
     var jsonOpt = Object.assign(DG_MessageBox.ShowOptionDefault, jsonOption);
     
     var jsonOutput = {
+        /** 시작위치 - Y */
+        top: jsonOpt.top,
+        /** 시작위치 - X */
+        left: jsonOpt.left,
+
+        /** 팝업이 완성되면 크기를 고정할지 여부 
+            이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+        */
+        SizeFixed: jsonOpt.SizeFixed,
+
         //제목
         Title: jsonOpt.Title,
         //내용
@@ -185,6 +200,12 @@ DG_MessageBox.Show = function (jsonOption)
 DG_MessageBox.ShowBox = function (jsonOption)
 {
     var jsonOptDefault = {
+
+        /** 팝업이 완성되면 크기를 고정할지 여부 
+            이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+        */
+        SizeFixed: false,
+
         //제목
         Title: "",
         //내용
@@ -218,6 +239,11 @@ DG_MessageBox.ShowBox = function (jsonOption)
         top: jsonOpt.top,
         /** 시작위치 - X */
         left: jsonOpt.left,
+
+        /** 팝업이 완성되면 크기를 고정할지 여부
+            이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+        */
+        SizeFixed: jsonOpt.SizeFixed,
 
         /** 팝업 안에 표시할 컨탠츠
          * 오브젝트도 가능하다. */
