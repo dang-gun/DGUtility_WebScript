@@ -1,0 +1,9 @@
+﻿{
+  "Name": "이름",
+  "Age": "나이",
+  "Email": "이메일",
+  "Address": "주소",
+
+  "KoOnly": "ko-KR Only",
+  "Test001": "테스트001"
+}

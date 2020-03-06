@@ -24,12 +24,13 @@
 
 .DG_MessageBoxContent {
     padding: 10px;
+    min-height: 60px;
 }
 
-.DG_MessageBoxFooter {
-    text-align: center;
-    padding: 10px 0;
+.DG_MessageBoxContentHtml {
+    margin-left: 60px;
 }
+
 
 /** 큰 아이콘 - 정보 */
 .DG_MessageBoxBigIcon_info {
@@ -80,6 +81,7 @@
         color: #000;
         position: absolute;
         text-indent: 5px;
+        line-height: 52px;
     }
 
 /** 큰 아이콘 - 에러 */
@@ -189,16 +191,19 @@
         content: "?";
     }
 
-.DG_MessageBoxContentHtml {
 
+
+
+.DG_MessageBoxFooter {
+    text-align: center;
+    padding: 0px 0 10px 0;
 }
-
 
 /** 버튼 css
     https://designtheway.com/css-buttons/
 */
 .DG_MessageBoxFooter > button {
-    margin:0 5px;
+    margin: 10px 5px;
     width: 100px;
     background: transparent;
     border: 2px solid transparent;

@@ -35,6 +35,11 @@ DG_MessageBox.BigIconType = {
 
 /** 창열기 기본 옵션 */
 DG_MessageBox.ShowOptionDefault = {
+    /** 시작위치 - Y */
+    top: 0,
+    /** 시작위치 - X */
+    left: 0,
+
     /** 팝업이 완성되면 크기를 고정할지 여부 
         이 옵션이 없으면 창이동시 크기가 변경될수 있다.
      */
@@ -73,7 +78,7 @@ DG_MessageBox.Initialize = function (jsonShowOptionDefault)
     DG_Popup.Initialize();
 
     //기본 옵션
-    var jsonOpt = Object.assign(DG_MessageBox.ShowOptionDefault
+    var jsonOpt = Object.assign({}, DG_MessageBox.ShowOptionDefault
                                 , jsonShowOptionDefault);
     DG_MessageBox.ShowOptionDefault = jsonOpt;
 };
@@ -86,7 +91,7 @@ DG_MessageBox.Initialize = function (jsonShowOptionDefault)
 DG_MessageBox.Show = function (jsonOption)
 {
     //완성된 옵션
-    var jsonOpt = Object.assign(DG_MessageBox.ShowOptionDefault, jsonOption);
+    var jsonOpt = Object.assign({}, DG_MessageBox.ShowOptionDefault, jsonOption);
     
     var jsonOutput = {
         /** 시작위치 - Y */
@@ -231,7 +236,7 @@ DG_MessageBox.ShowBox = function (jsonOption)
     };
 
     //완성된 옵션
-    var jsonOpt = Object.assign(jsonOptDefault, jsonOption);
+    var jsonOpt = Object.assign({}, jsonOptDefault, jsonOption);
 
     //
     var jsonTossOpt = {
