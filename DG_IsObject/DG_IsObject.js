@@ -97,7 +97,7 @@ dgIsObject.IsStringValue = function (objData)
 {
     var sReturn = "";
 
-    if (false === IsStringNotEmpty(objData))
+    if (false === dgIsObject.IsStringNotEmpty(objData))
     {
         sReturn = "";
     }
