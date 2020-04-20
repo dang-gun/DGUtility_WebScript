@@ -88,6 +88,28 @@ dgIsObject.IsStringNotEmpty = function (objData) {
 };
 
 /**
+ * 들어온 오브젝트를 문자열로 바꾼다.
+ * 
+ * @param {object} objData 판단할 오브젝트
+ * @returns {string} 변환된 string값
+ */
+dgIsObject.IsStringValue = function (objData)
+{
+    var sReturn = "";
+
+    if (false === IsStringNotEmpty(objData))
+    {
+        sReturn = "";
+    }
+    else
+    {
+        sReturn = String(objData);
+    }
+
+    return sReturn;
+};
+
+/**
  * 들어온 오브젝트가 int값인지 여부 판단.
  * @param {object} objData 판단할 오브젝트
  * @returns {boolean} int값인지 여부.
@@ -116,6 +138,31 @@ dgIsObject.IsIntValue = function (objData)
     if (false === isNaN(objData))
     {//숫자형이다.
         bReturn = Number(objData);
+    }
+
+    return bReturn;
+};
+
+
+
+/**
+ * 선언이 있는지 확인한다.
+ * undefined나 null이 아니면 참이 리턴됨.
+ * 
+ * 이 함수는 사용할 수 없다.(선언되지 않는 변수를 매개변수로 받을 수 없기 때문)
+ * @param {object} objData 확인할 데이터
+ * @returns {int} int로 변환된 값
+ */
+dgIsObject.IsDefined = function (objData)
+{
+    var bReturn = false;
+
+    if (typeof objData !== "undefined")
+    {
+        if (null !== objData)
+        {
+            bReturn = true;
+        }
     }
 
     return bReturn;

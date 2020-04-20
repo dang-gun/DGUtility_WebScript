@@ -21,7 +21,7 @@ function DG_JsDataBind()
     this.MatchPatternListAdd("defult"
         , {
             "": function (sOriData, sMatchString, sValue) { return objThis.ReplaceAll(sOriData, sMatchString, sValue); }
-            , ":money": function (sOriData, sMatchString, sValue) { return objThis.ReplaceAll(sOriData, sMatchString, sValue+":돈이다"); }
+            , ":money": function (sOriData, sMatchString, sValue) { return "\\" + objThis.ReplaceAll(sOriData, sMatchString, sValue); }
         });
 }
 

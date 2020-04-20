@@ -127,7 +127,7 @@ DG_Popup.Show = function (jsonOption)
     var jsonOptDefault = DG_Popup.ShowOptionDefault;
 
     //옵션 합치기
-    var jsonOpt = Object.assign(assign, jsonOptDefault, jsonOption);
+    var jsonOpt = Object.assign({}, jsonOptDefault, jsonOption);
 
     //고유키 증가;
     var nPopupIndex = ++DG_Popup.PopupIndex;

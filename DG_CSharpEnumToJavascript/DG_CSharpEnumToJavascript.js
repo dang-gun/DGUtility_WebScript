@@ -6,7 +6,7 @@
     var sOutput = "";
 
     //시작 중괄호 자르기
-    var arrCut01 = txtOri.text().split("{");
+    var arrCut01 = txtOri.val().split("{");
 
     //첫줄과 2번째줄 만들기
     sOutput += arrCut01[0] + "{";

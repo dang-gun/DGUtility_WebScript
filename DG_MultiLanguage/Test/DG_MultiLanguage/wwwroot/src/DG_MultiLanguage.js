@@ -35,6 +35,7 @@ function DG_MultiLanguage(sDefaultUrl
         , function (json)
         {
             objThis.Default = json;
+            objThis.Now = objThis.Default;
             if (typeof funCallbackTemp === "function")
             {
                 funCallbackTemp();
