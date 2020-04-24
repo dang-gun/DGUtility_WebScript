@@ -1,0 +1,47 @@
+﻿<!doctype html>
+
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <style>
+        #txtOri, #txtOutput {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+
+    <!-- jquery 3.4.1 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="DG_JsFileSelector.css">
+    <script src="DG_JsFileSelector.js"></script>
+</head>
+
+<body>
+    <h3>DG JsFileSelector</h3>
+    <br />
+    자바스크립트 파일 선택 UI<br />
+    <br />
+    <div id="divOutput">
+
+    </div>
+    
+    <script>
+        var dgFS = new DG_JsFileSelector({
+            Area: $("#divOutput"),
+            Debug:true
+        });
+
+        function testCall()
+        {
+            dgFS.ItemList_Get();
+        }
+
+    </script>
+</body>
+
+</html>
