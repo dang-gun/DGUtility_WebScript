@@ -26,6 +26,13 @@ DG_JsFileSelector.prototype.jsonOptoinDefult = {
     /** 아이템이 그려질 영역 */
     Area_ItmeList: null,
 
+    /** 
+     *  허용된 확장자 리스트(소문자로 입력).
+     *  전체허용은 "*.*"
+     * */
+    ExtAllow: ["*.*"],
+    //ExtAllow: [".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tif", ".tiff", ".raw"],
+
     /**
      * 확장자를 검사해서 미리보기 영역에 아이콘 혹은 이미지를 출력한다.
      * null이면 기본 함수를 사용한다.
@@ -94,7 +101,16 @@ DG_JsFileSelector.prototype.jsonOptoinDefult = {
             ++u;
         } while (Math.abs(nSizeLength) >= thresh && u < units.length - 1);
         return nSizeLength.toFixed(1) + ' ' + units[u];
-    }
+    },
+
+    /**
+     * 파일을 선택하였을대 모든 처리가 끝났을때 이벤트
+     * @param {object} objThis 최상위 부모 개체
+     */
+    LoadComplete: function (objThis)
+    {
+        console.log("LoadComplete : " + objThis.LoadCompleteMessage);
+    },
 };
 
 /** 전달받은 옵션값. jsonOptoinDefult 참고 */
@@ -112,6 +128,9 @@ DG_JsFileSelector.prototype.jsonItemDefult = {
     Type: "",
     /** 파일에 대한 설명 */
     Description: "",
+
+    /** 에디터에서 사용될 파일 구분값 */
+    EditorDivision: "",
 
     /** 
      *  바이너리 정보를 사용할지 여부.
@@ -139,9 +158,24 @@ DG_JsFileSelector.prototype.jsonItemDefult = {
 
 /** 가지고 있는 아이템 리스트 */
 DG_JsFileSelector.prototype.ItemList = [];
+/** 구분값 생성에 사용될 카운터. */
+DG_JsFileSelector.prototype.EditorDivisionCount = 0;
 
-/** ui에 표시중인 파일의  */
+/** ui에 표시중인 파일의 총 크기  */
 DG_JsFileSelector.prototype.FileTotalSize = 0;
+
+/** 바이너리 데이터를 사용하는 경우 모든 데이터가 로딩이 끝났는지 여부 */
+DG_JsFileSelector.prototype.LoadCompleteIs = true;
+/** 
+ *  파일 추가가 완료되었을때 정보를 알리기위한 메시지.
+ * 처리 불가나 오류같은 것들을 알라기위해 저장되는 메시지
+ * jsonOptoin.LoadComplete이벤트가 발생했는데 
+ * 여기에 메시지가 있다면 출력해서 사용자에게 알리는 것이 좋다.
+ * */
+DG_JsFileSelector.prototype.LoadCompleteMessage = "";
+/** 파일 추가가 완료되었을때 이번 스탭에 한번에 추가된 개체들 */
+DG_JsFileSelector.prototype.LoadCompleteFile = [];
+
 
 /**
  * 개체를 다시 설정한다.
@@ -158,7 +192,17 @@ DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
     objThis.jsonOptoin.Area.empty();
 
     //파일 선택기 생성***********************
-    var domInputFile = $('<input type="file" class="DG_JsFileSelector_FileSelector" accept="*.*">');
+    var domInputFile = $('<input type="file" class="DG_JsFileSelector_FileSelector">');
+    //허용 확장자
+    var sExtAllow = "";
+    for (var nExtA = 0; nExtA < objThis.jsonOptoin.ExtAllow.length; ++nExtA)
+    {
+        var itemExt = objThis.jsonOptoin.ExtAllow[nExtA];
+        sExtAllow += "," + itemExt;
+    }
+    //허용 확장자 입력
+    domInputFile.attr("accept", sExtAllow.substring(1));
+    //여러개 선택 옵션 추가
     domInputFile.attr("multiple", "multiple");
     domInputFile.on("change"
         , function (event)
@@ -232,7 +276,7 @@ DG_JsFileSelector.prototype.ExtToImg = function (sExt)
  */
 DG_JsFileSelector.prototype.OnFileChange = function (event, objThis, eventThis)
 {
-    objThis.FileUiAdd(eventThis.files);
+    objThis.FileAdd_JsonList(objThis, eventThis.files);
 };
 
 DG_JsFileSelector.prototype.OnClick = function (event, objThis)
@@ -266,11 +310,11 @@ DG_JsFileSelector.prototype.OnDrop = function (event, objThis, eventThis )
         }
 
         //아이템 처리로 전달한다.
-        objThis.FileAdd_JsonList(arrFile);
+        objThis.FileAdd_JsonList(objThis, arrFile);
     }
     else
     {
-        objThis.FileAdd_JsonList(event.originalEvent.dataTransfer.files);
+        objThis.FileAdd_JsonList(objThis, event.originalEvent.dataTransfer.files);
     }
     
     
@@ -291,12 +335,43 @@ DG_JsFileSelector.prototype.OnDragover = function (event, objThis, eventThis)
  * 파일 추가 - 리스트
  * @param {any} arrFile
  */
-DG_JsFileSelector.prototype.FileAdd_JsonList = function (arrFile)
+DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
 {
-    var objThis = this;
+    var objThisTemp = objThis;
+    if (null === objThisTemp)
+    {
+        objThisTemp = this;
+    }
+
+    //로딩이 필요한 데이터가 있는지 확인
+    if (0 < arrFile.length)
+    {
+        //로딩이 필요없는지 여부
+        var bResult = true;
+        for (var nFile = 0; nFile < arrFile.length; ++nFile)
+        {
+            var itemFile = arrFile[nFile];
+            if ((typeof itemFile.BinaryIs === "undefined")
+                || (true === itemFile.BinaryIs
+                        && false === itemFile.BinaryReadyIs))
+            {//BinaryIs가 없으면 바이너리를 사용한다고 가정한다.
+                //바이너리 정보를 사용하는데
+                //바이너리 준비가 끝났나지 안은 데이터가 있다.
+                bResult = false;
+            }
+        }
+
+        if (false === bResult)
+        {//로딩이 필요한 데이터가 있다.
+            objThisTemp.LoadCompleteIs = false;
+            objThisTemp.LoadCompleteMessage = "";
+            objThisTemp.LoadCompleteFile = [];
+        }
+    }
+
     for (var i = 0; i < arrFile.length; ++i)
     {
-        objThis.FileAdd_JsonItem(arrFile[i]);
+        objThisTemp.FileAdd_JsonItem(arrFile[i]);
     }
 };
 
@@ -307,6 +382,7 @@ DG_JsFileSelector.prototype.FileAdd_JsonList = function (arrFile)
 DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
 {
     var objThis = this;
+    ++objThis.EditorDivisionCount;
 
     //확장자 추출 정규식
     var patternExt = /\.[0-9a-z]+$/i;
@@ -314,9 +390,12 @@ DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
     //파일 정보 추출
     var jsonItem = {
         Name: jsonFile.name,
-        Extension: jsonFile.name.match(patternExt)[0],
+        Extension:  jsonFile.name.match(patternExt)[0].toLowerCase(),
         Size: jsonFile.size,
         Type: jsonFile.type,
+
+        //구분용 이름
+        EditorDivision: jsonFile.name + "/" + objThis.EditorDivisionCount,
 
         //바이너리 사용함
         BinaryIs: true,
@@ -324,7 +403,22 @@ DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
         Binary: jsonFile.stream()
     };
 
-
+    //허용된 확장자 확인
+    var sExt = objThis.jsonOptoin.ExtAllow.find(element => element === "*.*");
+    if (undefined === sExt)
+    {//전체 허용이 아니다.
+        //이 아이템의 확장자가 허용리스트에 있는지 확인
+        sExt = objThis.jsonOptoin.ExtAllow.find(element => element === jsonItem.Extension);
+        if (undefined === sExt)
+        {//허용 리스트에 없다.
+            //원인을 적어준다.
+            objThis.LoadCompleteMessage += "허용되지 않은 파일형식 : " + jsonItem.Name + "\n";
+            //이 아이템은 취소 시킨다.
+            return;
+        }
+    }
+    
+    
     //들어온 값을 완성한다.
     var jsonFileInfo = Object.assign(objThis.jsonItemDefult, jsonItem);
 
@@ -332,8 +426,26 @@ DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
 };
 
 /**
- * UI에 출력
+ * 완성된 리스트를 UI에 출력.
+ * 완성된 리스트라는 것은 로딩이 끝난데이터를 말한다.
  * @param {any} jsonFileInfo
+ */
+DG_JsFileSelector.prototype.FileAdd_UI_List = function (jsonFileInfoList)
+{
+    var objThis = this;
+
+    for (var i = 0; i < jsonFileInfoList.length; ++i)
+    {
+        objThis.FileAdd_UI(jsonFileInfoList[i]);
+    }
+};
+
+/**
+ * UI에 출력.
+ * 완성된 json 파일을 출력할때 사용한다.
+ * 파일 인터페이스에서 넘어온 데이터는 'FileAdd_JsonItem'를 타고 들어와야 한다.
+ * @param {any} jsonFileInfo
+ * @param {any} jsonFile 
  */
 DG_JsFileSelector.prototype.FileAdd_UI = function (jsonFileInfo, jsonFile)
 {
@@ -396,6 +508,8 @@ DG_JsFileSelector.prototype.FileAdd_UI = function (jsonFileInfo, jsonFile)
 
                 //바이너리 로드 완료
                 jsonFI.BinaryReadyIs = true;
+                //모든 리소스가 로드되었는지 확인
+                objThis.LoadComplete(objThis);
             }, false);
 
             frLoad.readAsDataURL(jsonFile);
@@ -441,8 +555,36 @@ DG_JsFileSelector.prototype.FileAdd_UI = function (jsonFileInfo, jsonFile)
 
     //아이템 리스트에 데이터 추가
     objThis.ItemList.push(jsonFI);
+    //이번 스탭에 한번에 추가될 파일 정보
+    objThis.LoadCompleteFile.push(jsonFI);
 };
 
+
+DG_JsFileSelector.prototype.LoadComplete = function (objThis)
+{
+    var bReturn = true;
+
+    for (var i = 0; i < objThis.ItemList.length; ++i)
+    {
+        var itemFile = objThis.ItemList[i];
+        if (true === itemFile.BinaryIs
+            && false === itemFile.BinaryReadyIs)
+        {//바이너리 정보를 사용하는데
+            //바이너리 준비가 끝났나지 안았다.
+            bReturn = false;
+            break;
+        }
+    }
+
+    if (true === bReturn
+        && false === objThis.LoadCompleteIs)
+    {//모든 리소스가 완료되었다.
+        //모든 데이터라 로드가 끝났음을 알림
+        objThis.LoadCompleteIs = true;
+        //이벤트 호출
+        objThis.jsonOptoin.LoadComplete(objThis);
+    }
+};
 
 /**
  * ExtToImg에서 판단한 정보를 가지고 이미지를 출력한다.
@@ -500,7 +642,7 @@ DG_JsFileSelector.prototype.ItemList_Cleaning = function ()
 
     for (var i = 0; i < objThis.ItemList.length; ++i)
     {
-        var itemFile = objThis.ItemList;
+        var itemFile = objThis.ItemList[0];
         if (true === itemFile.Delete
             && 0 >= itemFile.idFile)
         {//삭제되었는데

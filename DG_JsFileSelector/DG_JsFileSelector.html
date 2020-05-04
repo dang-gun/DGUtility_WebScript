@@ -33,12 +33,21 @@
     <script>
         var dgFS = new DG_JsFileSelector({
             Area: $("#divOutput"),
-            Debug:true
+            Debug: true,
+
+            LoadComplete: FS_LoadComplete
         });
 
         function testCall()
         {
             dgFS.ItemList_Get();
+        }
+
+
+        function FS_LoadComplete(objThis)
+        {
+            console.log("로드 완료");
+
         }
 
     </script>

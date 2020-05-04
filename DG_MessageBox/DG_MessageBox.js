@@ -299,10 +299,11 @@ DG_MessageBox.ShowBox = function (jsonOption)
         //추가할버튼
         var btn01 = $("<button></button>");
         btn01.addClass(itemBtn.ButtonCss);
+        btn01.attr("buttonType", itemBtn.ButtonType);
         btn01.html(itemBtn.ButtonText);
-        btn01.click(function ()
+        btn01.click(function (event)
         {
-            jsonOpt.ButtonEvent(itemBtn.ButtonType);
+            jsonOpt.ButtonEvent(Number($(event.target).attr("buttonType")));
         });
 
         divFooter.append(btn01);
