@@ -41,6 +41,8 @@ DG_Popup.ShowOptionDefault = {
     width: "auto",
     /** 세로 크기 */
     height: "auto",
+    /** 페이지 시작시 보고 있는 위치(예>스크롤로 위치가 바뀌는 경우)를 기준으로 표시할지 여부  */
+    StartViewWeight: false,
 
     /** 부모에 적용할 css */
     ParentCss: "",
@@ -167,8 +169,17 @@ DG_Popup.Show = function (jsonOption)
     divContent.css("position", "absolute");
     divContent.css("background", jsonOpt.ContentBackground);
 
-    divContent.css("top", jsonOpt.top + "px");
-    divContent.css("left", jsonOpt.left + "px");
+    var nTop = jsonOpt.top;
+    var nLeft = jsonOpt.left;
+
+    if (true === jsonOpt.StartViewWeight)
+    {//보고 있는 위치를 기준으로 표시
+        nTop += window.scrollY;
+        nLeft += window.scrollX;
+    }
+
+    divContent.css("top", nTop + "px");
+    divContent.css("left", nLeft + "px");
     divContent.css("width", jsonOpt.width);
     divContent.css("height", jsonOpt.height);
 

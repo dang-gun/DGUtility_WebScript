@@ -244,6 +244,8 @@ DG_MessageBox.ShowBox = function (jsonOption)
         top: jsonOpt.top,
         /** 시작위치 - X */
         left: jsonOpt.left,
+        /** 보고 있는 위치 기준 창띄우기 */
+        StartViewWeight: true,
 
         /** 팝업이 완성되면 크기를 고정할지 여부
             이 옵션이 없으면 창이동시 크기가 변경될수 있다.
