@@ -176,6 +176,8 @@ DG_JsFileSelector.prototype.LoadCompleteMessage = "";
 /** 파일 추가가 완료되었을때 이번 스탭에 한번에 추가된 개체들 */
 DG_JsFileSelector.prototype.LoadCompleteFile = [];
 
+/** 만들어진 파일 열기 버튼 */
+DG_JsFileSelector.prototype.domInputFile = null;
 
 /**
  * 개체를 다시 설정한다.
@@ -211,6 +213,9 @@ DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
             objThis.OnFileChange(event, objThis, this);
         });
     objThis.jsonOptoin.Area.append(domInputFile);
+    //만들어진 버튼 개체
+    objThis.domInputFile = domInputFile;
+
 
     //UI 버튼 생성***************************
     var domBtnFileOpen = $("<button>파일 열기</button>");
@@ -218,7 +223,6 @@ DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
         , function (event)
         {
             event.preventDefault();
-            objThis.OnClick(event, objThis);
             domInputFile.click();
         });
     objThis.jsonOptoin.Area.append(domBtnFileOpen);
@@ -277,11 +281,6 @@ DG_JsFileSelector.prototype.ExtToImg = function (sExt)
 DG_JsFileSelector.prototype.OnFileChange = function (event, objThis, eventThis)
 {
     objThis.FileAdd_JsonList(objThis, eventThis.files);
-};
-
-DG_JsFileSelector.prototype.OnClick = function (event, objThis)
-{
-
 };
 
 DG_JsFileSelector.prototype.OnDrop = function (event, objThis, eventThis )
@@ -678,4 +677,18 @@ DG_JsFileSelector.prototype.ItemList_Get = function ()
     objThis.ItemList_Cleaning();
 
     return objThis.ItemList;
+}
+
+
+//◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
+//외부 노출 메소드
+//◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
+
+/**
+ * 파일 선택창을 연다.
+ */
+DG_JsFileSelector.prototype.OpenFileSelection = function ()
+{
+    var objThis = this;
+    objThis.domInputFile.click();
 }
