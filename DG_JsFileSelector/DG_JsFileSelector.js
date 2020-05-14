@@ -23,7 +23,7 @@ DG_JsFileSelector.prototype.jsonOptoinDefult = {
 
     /** 드롭다운 영역이자 아이템 표시에 사용할 영역 */
     Area: null,
-    /** 아이템이 그려질 영역 */
+    /** 아이템이 그려질 완성된 영역 */
     Area_ItmeList: null,
 
     /** 
@@ -104,12 +104,22 @@ DG_JsFileSelector.prototype.jsonOptoinDefult = {
     },
 
     /**
-     * 파일을 선택하였을대 모든 처리가 끝났을때 이벤트
+     * 선택한 파일의 모든 처리가 끝났을때 이벤트
      * @param {object} objThis 최상위 부모 개체
      */
     LoadComplete: function (objThis)
     {
         console.log("LoadComplete : " + objThis.LoadCompleteMessage);
+    },
+
+    /**
+     * 파일 지우기가 완료되면 전달할 이벤트
+     * @param {json} jsonFIle 아이템으로 사용하는 파일 정보(참고 : DG_JsFileSelector.prototype.jsonItemDefult)
+     * @param {dom} domDivItme 지울 대상
+     */
+    DeleteComplete: function (jsonFIle, domDivItme)
+    {
+        console.log(jsonFIle);
     },
 };
 
@@ -650,16 +660,19 @@ DG_JsFileSelector.prototype.ItemList_Delete = function (objThis, jsonFIle, domDi
 
     if (0 >= jsonFIle.idFile)
     {//파일아이디가 없다.
-        //로컬의 파일이라는 의미이므로 
-
-        //배열에서 제거
+        //로컬의 파일이라는 것.
+        //로컬 파일 삭제는 리스트에서 제거한다.
         var nFindIndex = objThis.ItemList.indexOf(jsonFIle);
         if (-1 !== nFindIndex)
         {
             objThis.ItemList.splice(nFindIndex, 1);
         }
     }
-    
+
+    if (typeof objThis.jsonOptoin.DeleteComplete === "function")
+    {//지우기가 끝나면 전달할 이벤트
+        objThis.jsonOptoin.DeleteComplete(jsonFIle, domDivItme);
+    }
 };
 
 /** 

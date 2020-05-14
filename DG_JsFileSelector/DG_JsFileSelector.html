@@ -26,21 +26,56 @@
     <br />
     자바스크립트 파일 선택 UI<br />
     <br />
+    <button onclick="Test_FileAdd();">완성된 파일 정보 추가</button>
+    <button onclick="Test_GetItemList();">입력된 파일 정보(콘솔)</button>
+    <br />
+    <br />
     <div id="divOutput">
 
     </div>
-    
+
     <script>
         var dgFS = new DG_JsFileSelector({
             Area: $("#divOutput"),
-            Debug: true,
-
-            LoadComplete: FS_LoadComplete
+            Debug: true
         });
 
-        function testCall()
+        function Test_FileAdd()
         {
-            dgFS.ItemList_Get();
+            dgFS.FileAdd_UI_List(
+                [{
+                    Name: "테스트 파일01.test",
+                    Extension: ".test",
+                    Size: 3000,
+                    Type: "",
+                    Description: "테스트 파일",
+                    BinaryIs: false,
+                    BinaryReadyIs: false,
+                    Binary: "",
+                    idFile: 1,
+                    Url: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile27.uf.tistory.com%2Fimage%2F9945DA4E5EB820131E2E30",
+                    Edit: false,
+                    Delete: false,
+                },
+                {
+                    Name: "테스트 파일02.jpg",
+                    Extension: ".jpg",
+                    Size: 3000,
+                    Type: "",
+                    Description: "테스트 파일",
+                    BinaryIs: false,
+                    BinaryReadyIs: false,
+                    Binary: "",
+                    idFile: 1,
+                    Url: "https://t1.daumcdn.net/cfile/tistory/995EA74E5E5A9BB409?original",
+                    Edit: false,
+                    Delete: false,
+                }]);
+        }
+
+        function Test_GetItemList()
+        {
+            console.log(dgFS.ItemList_Get());
         }
 
 
