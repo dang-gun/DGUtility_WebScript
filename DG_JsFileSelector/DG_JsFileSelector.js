@@ -7,7 +7,7 @@ function DG_JsFileSelector(jsonOptoin)
     objThis.Reset(jsonOptoin);
 }
 
-/** 파일 */
+/** 파일 html */
 DG_JsFileSelector.prototype.ItemHtml = 
 '<div class="DG_JsFileSelector_Item" idFile="{{idFile}}">  \
     <div><img src="{{FileUrl}}" /></div> \
@@ -167,7 +167,7 @@ DG_JsFileSelector.prototype.FileTotalSize = 0;
 /** 바이너리 데이터를 사용하는 경우 모든 데이터가 로딩이 끝났는지 여부 */
 DG_JsFileSelector.prototype.LoadCompleteIs = true;
 /** 
- *  파일 추가가 완료되었을때 정보를 알리기위한 메시지.
+ * 파일 추가가 완료되었을때 정보를 알리기위한 메시지.
  * 처리 불가나 오류같은 것들을 알라기위해 저장되는 메시지
  * jsonOptoin.LoadComplete이벤트가 발생했는데 
  * 여기에 메시지가 있다면 출력해서 사용자에게 알리는 것이 좋다.
@@ -181,7 +181,7 @@ DG_JsFileSelector.prototype.domInputFile = null;
 
 /**
  * 개체를 다시 설정한다.
- * @param {any} jsonOptoin
+ * @param {json} jsonOptoin 'DG_JsFileSelector.prototype.jsonOptoinDefult'형식의 데이터
  */
 DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
 {
@@ -256,7 +256,14 @@ DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
     objThis.ItemList = [];
 };
 
-
+/**
+ * 확장자 검사.
+ * 확장자를 어떻게 처리할지를 판단한다.
+ * @param {string} sExt 검사할 확장자
+ * @returns {string} 이미지 주소.(ImgDomSet 참고)
+ * 빈값이면 자체적으로 판단된다.(url이 있으면 url을 따라가고 아니면 기본 이미지)
+ * "IMAGE"를 리턴하면 로컬파일은 비동기 이미지를 출력, 서버파일은 url를 넣는다.
+ */
 DG_JsFileSelector.prototype.ExtToImg = function (sExt)
 {
     var objThis = this;
@@ -274,15 +281,21 @@ DG_JsFileSelector.prototype.ExtToImg = function (sExt)
 
 /**
  * 파일 선택창에서 파일 선택시 이벤트
- * @param {any} event
- * @param {any} objThis
- * @param {any} eventThis
+ * @param {Event} event 전달 받은 이벤트 개체
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ * @param {object} eventThis 이벤트가 발생할때 자신의 오브젝트
  */
 DG_JsFileSelector.prototype.OnFileChange = function (event, objThis, eventThis)
 {
     objThis.FileAdd_JsonList(objThis, eventThis.files);
 };
 
+/**
+ * 파일을 드래그해서 영역에 놨을때 발생하는 이벤트
+ * @param {Event} event 전달 받은 이벤트 개체
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ * @param {object} eventThis 이벤트가 발생할때 자신의 오브젝트
+ */
 DG_JsFileSelector.prototype.OnDrop = function (event, objThis, eventThis )
 {
     if (true === objThis.jsonOptoin.Debug)
@@ -319,6 +332,12 @@ DG_JsFileSelector.prototype.OnDrop = function (event, objThis, eventThis )
     
 };
 
+/**
+ * 파일을 드래그해서 영역에 올라왔을때 이벤트
+ * @param {Event} event 전달 받은 이벤트 개체
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ * @param {object} eventThis 이벤트가 발생할때 자신의 오브젝트
+ */
 DG_JsFileSelector.prototype.OnDragover = function (event, objThis, eventThis)
 {
     //if (true === objThis.jsonOptoin.Debug)
@@ -332,7 +351,8 @@ DG_JsFileSelector.prototype.OnDragover = function (event, objThis, eventThis)
 
 /**
  * 파일 추가 - 리스트
- * @param {any} arrFile
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ * @param {array} arrFile 브라우저에서 넘어온 파일 정보 배열
  */
 DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
 {
@@ -376,7 +396,7 @@ DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
 
 /**
  * 파일 추가 - 아이템
- * @param {any} jsonFile
+ * @param {json} jsonFile 브라우저에서 넘어온 파일 정보
  */
 DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
 {
@@ -427,15 +447,16 @@ DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
 /**
  * 완성된 리스트를 UI에 출력.
  * 완성된 리스트라는 것은 로딩이 끝난데이터를 말한다.
- * @param {any} jsonFileInfo
+ * 외부에서 완성된 데이터 리스트를 받아 UI에 바인딩할때 사용한다.
+ * @param {array} jsonFileInfo 'DG_JsFileSelector.prototype.jsonItemDefult' 형식의 배열
  */
-DG_JsFileSelector.prototype.FileAdd_UI_List = function (jsonFileInfoList)
+DG_JsFileSelector.prototype.FileAdd_UI_List = function (arrFileInfoList)
 {
     var objThis = this;
 
-    for (var i = 0; i < jsonFileInfoList.length; ++i)
+    for (var i = 0; i < arrFileInfoList.length; ++i)
     {
-        objThis.FileAdd_UI(jsonFileInfoList[i]);
+        objThis.FileAdd_UI(arrFileInfoList[i]);
     }
 };
 
@@ -443,8 +464,8 @@ DG_JsFileSelector.prototype.FileAdd_UI_List = function (jsonFileInfoList)
  * UI에 출력.
  * 완성된 json 파일을 출력할때 사용한다.
  * 파일 인터페이스에서 넘어온 데이터는 'FileAdd_JsonItem'를 타고 들어와야 한다.
- * @param {any} jsonFileInfo
- * @param {any} jsonFile 
+ * @param {json} jsonFileInfo 'DG_JsFileSelector.prototype.jsonItemDefult' 형식의 데이터
+ * @param {json} jsonFile (선택)브라우저에서 넘어온 파일 원본 정보. 바이너리 정보를 사용하지 않을때는 필요없다.
  */
 DG_JsFileSelector.prototype.FileAdd_UI = function (jsonFileInfo, jsonFile)
 {
@@ -558,7 +579,10 @@ DG_JsFileSelector.prototype.FileAdd_UI = function (jsonFileInfo, jsonFile)
     objThis.LoadCompleteFile.push(jsonFI);
 };
 
-
+/**
+ * 바이너리 정보의 로드가 완료되었을때 동작할 이벤트
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ */
 DG_JsFileSelector.prototype.LoadComplete = function (objThis)
 {
     var bReturn = true;
@@ -589,7 +613,7 @@ DG_JsFileSelector.prototype.LoadComplete = function (objThis)
  * ExtToImg에서 판단한 정보를 가지고 이미지를 출력한다.
  * @param {dom} domImg 이미지를 출력할 dom
  * @param {string} sImgUrl ExtToImg에서 판단하여 넘겨받은 정보
- * @param {byte, string} objImage "IMAGE"일때 출력할 이미지 정보
+ * @param {byte | string} objImage "IMAGE"일때 출력할 이미지 정보
  */
 DG_JsFileSelector.prototype.ImgDomSet = function (domImg, sImgUrl, objImage)
 {
@@ -613,7 +637,12 @@ DG_JsFileSelector.prototype.ImgDomSet = function (domImg, sImgUrl, objImage)
     domImg.attr("src", sImg);
 };
 
-
+/**
+ * 선택된 개체를 지운다.
+ * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
+ * @param {json} jsonFIle 아이템으로 사용하는 파일 정보(참고 : DG_JsFileSelector.prototype.jsonItemDefult)
+ * @param {dom} domDivItme 지울 대상
+ */
 DG_JsFileSelector.prototype.ItemList_Delete = function (objThis, jsonFIle, domDivItme)
 {
     jsonFIle.Delete = true;
@@ -633,6 +662,11 @@ DG_JsFileSelector.prototype.ItemList_Delete = function (objThis, jsonFIle, domDi
     
 };
 
+/** 
+ *  아이템 리스트를 정리한다.
+ *  서버에 전달할 필요가 없는 아이템을 제외한다.
+ *  예> 파일 아이디가 없는데 삭제 데이터다.
+ * */
 DG_JsFileSelector.prototype.ItemList_Cleaning = function ()
 {
     var objThis = this;
