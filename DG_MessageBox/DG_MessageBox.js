@@ -36,9 +36,9 @@ DG_MessageBox.BigIconType = {
 /** 창열기 기본 옵션 */
 DG_MessageBox.ShowOptionDefault = {
     /** 시작위치 - Y */
-    top: 0,
+    top: 50,
     /** 시작위치 - X */
-    left: 0,
+    left: "center",
 
     /** 팝업이 완성되면 크기를 고정할지 여부 
         이 옵션이 없으면 창이동시 크기가 변경될수 있다.
