@@ -51,12 +51,14 @@ DG_FlagEnum.Toggle = function (value, key)
  * @param {string} sItemHtml html생성시 항목으로 사용할 html
  * @param {json} typeFlag 값으로 쓸 타입json
  * @param {json} jsonTypeFlagName 이름으로 쓸 json
+ * @param {int} nValue 미리 넣을 체크값
  * @returns {string} 완성된 Html
  */
 DG_FlagEnum.ToHtml = function (
     sItemHtml
     , typeFlag
-    , jsonTypeFlagName)
+    , jsonTypeFlagName
+    , nValue)
 {
 
     var sReturn = "";
@@ -76,6 +78,13 @@ DG_FlagEnum.ToHtml = function (
         sItemHtmlTemp = sItemHtmlTemp.replace(/{{value}}/g, itemFlag);
         //이름 넣기
         sItemHtmlTemp = sItemHtmlTemp.replace(/{{Name}}/g, itemFlagName);
+        //체크 여부
+        var sChecked = "";
+        if (true === DG_FlagEnum.HasFlag(nValue, itemFlag))
+        {
+            sChecked = "checked";
+        }
+        sItemHtmlTemp = sItemHtmlTemp.replace(/{{checked}}/g, sChecked);
 
         //완성된 아이템 저장
         sReturn += sItemHtmlTemp;

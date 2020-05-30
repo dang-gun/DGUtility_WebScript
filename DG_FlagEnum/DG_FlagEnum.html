@@ -28,7 +28,7 @@
     <p>콘솔 확인</p>
     <br />
     <br />
-    <p><button onclick="ToHtml()">html 생성</button><button onclick="GetCheck()">데이터 받기</button></p>
+    <p><button onclick="ToHtml(false)">html 생성</button><button onclick="ToHtml(true)">html 생성(기존값 복원)</button><button onclick="GetCheck()">데이터 받기</button></p>
     <br />
     <div id="divOutput">
     </div>
@@ -109,20 +109,30 @@
         var sGroupName = "Auth3TypeGroup";
         //테스트 - 체크박스생성에 사용할 Html
         var sCheckHtml = '<label>'
-            + '<input type="checkbox" name="{{GroupName}}" value="{{value}}" />'
+            + '<input type="checkbox" name="{{GroupName}}" value="{{value}}" {{checked}} />'
             + '<span>{{Name}}</span>'
             + '</label>';
 
-        function ToHtml()
+        //선택값 임시 저장
+        var nValue = 0;
+
+        function ToHtml(bData)
         {
             //그룹 정보를 넣는다.
             var sCheckHtmlTemp = sCheckHtml.replace(/{{GroupName}}/g, sGroupName);
+
+            var nData = 0;
+            if (true === bData)
+            {
+                nData = nValue;
+            }
 
             var sHtml
                 = DG_FlagEnum.ToHtml(
                     sCheckHtmlTemp
                     , Auth3Type
                     , Auth3TypeName
+                    , nData
                 );
 
             $("#divOutput").html(sHtml);
@@ -130,7 +140,7 @@
 
         function GetCheck()
         {
-            var nValue = DG_FlagEnum.GetCheckBoxData(sGroupName);
+            nValue = DG_FlagEnum.GetCheckBoxData(sGroupName);
             alert(nValue);
         }
     </script>
