@@ -1,0 +1,108 @@
+﻿<!doctype html>
+
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <style>
+    </style>
+
+    <!-- jquery 3.4.1 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <script src="src/DG_i18n.js"></script>
+    <script>
+
+        //다국어 초기화
+        DG_i18n.init(
+            {
+                /** 설정된 언어 */
+                language: "en-US",
+                /** 언어를 찾지 못했을때 사용할 언어 */
+                fallbackLanguage: "en-US",
+                /** 언어 데이터 설정 */
+                resources:
+                {
+                    "en-US":
+                    {
+                        "Name": "Name",
+                        "Age": "Age",
+                        "Email": "Email",
+                        "Address": "Address",
+
+                        "KoOnly": "en-US Only",
+                        "Test001": "Test001"
+                    },
+                    "ko-KR": "LanguageFile/Location_ko-KR.json",
+                    "ja-JP": "LanguageFile/Location_ja-JP.json",
+                    "fr-FR":
+                    {
+                        "Name": "Nom nom",
+                        "Age": "Âge",
+
+                        "KoOnly": "fr-FR",
+                    },
+                }
+            }
+            , null);
+
+        
+
+        function Change()
+        {
+            
+            var sVal = $(":input:radio[name=LangGroup]:checked").val();
+
+            DG_i18n.languageChanged(sVal
+                , function ()
+                {
+                    var sOutput = "";
+
+                    sOutput += "Name : " + DG_i18n.LangList.Name + "<br />"
+                    sOutput += "Age : " + DG_i18n.Get("Age") + "<br />"
+                    sOutput += "Email : " + DG_i18n.LangList.Email + "<br />"
+                    sOutput += "Address : " + DG_i18n.Get("Address") + "<br />"
+                    sOutput += "Test001 : " + DG_i18n.LangList.Test001 + "<br />"
+
+                    sOutput += "<br />"
+                    sOutput += "KoOnly : " + DG_i18n.LangList.KoOnly + "<br />"
+
+
+                    $("#divOutput").html(sOutput);
+                });
+
+            
+        }
+    </script>
+</head>
+
+<body>
+    <h3>DG i18n</h3>
+    <br />
+    <br />
+    <div>
+        <label><input type="radio" name="LangGroup" value="ko-KR" onclick="Change()" checked>ko-KR</label>
+        <label><input type="radio" name="LangGroup" value="en-US" onclick="Change()"> en-US</label>
+        <label><input type="radio" name="LangGroup" value="ja-JP" onclick="Change()"> ja-JP</label>
+        <label><input type="radio" name="LangGroup" value="fr-FR" onclick="Change()"> fr-FR</label>
+    </div>
+
+    <br />
+    <br />
+    <div id="divOutput">
+
+    </div>
+
+    
+    <script>
+        $(document).ready(function ()
+        {
+            Change();
+        });
+    </script>
+</body>
+
+</html>
