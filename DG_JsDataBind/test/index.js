@@ -60,8 +60,8 @@ function OnStart02()
 
     insDB.MatchPatternListAdd("AddTest"
         , {
-            ":test1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
-            , ":test2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+            ":test1": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+            , ":test2": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
         });
 
     
@@ -91,8 +91,8 @@ function OnStart03()
 
     insDB.MatchPatternListAdd("AddTest"
         , {
-            ":test1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
-            , ":test2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+            ":test1": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
+            , ":test2": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue + ":AddTest1"); }
         });
 
 
@@ -147,8 +147,8 @@ function Test_Sample02()
 
     //사용자 정의 패턴 추가
     var jsonAdd = {
-        ":name1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
-        , ":name2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
+        ":name1": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
+        , ":name2": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
     };
 
     //패턴 추가
@@ -184,8 +184,8 @@ function Test_Sample03() {
 
     //사용자 정의 패턴 추가
     var jsonAdd = {
-        ":name1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
-        , ":name2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
+        ":name1": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
+        , ":name2": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
     };
 
     //패턴 추가
@@ -221,8 +221,8 @@ function Test_Sample04() {
 
     //사용자 정의 패턴 추가
     var jsonAdd = {
-        ":name1": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
-        , ":name2": function (sOriData, sMatchString, sValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
+        ":name1": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, sValue); }
+        , ":name2": function (sOriData, sMatchString, sValue, jsonValue) { return insDB.ReplaceAll(sOriData, sMatchString, "(" + sValue + ")"); }
     };
 
     //패턴 추가
