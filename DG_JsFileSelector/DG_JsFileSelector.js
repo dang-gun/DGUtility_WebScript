@@ -26,9 +26,13 @@ DG_JsFileSelector.prototype.jsonOptoinDefult = {
     /** 아이템이 그려질 완성된 영역 */
     Area_ItmeList: null,
 
+    /** 파일 갯수 제한. -1==무한 */
+    MaxFileCount: -1,
+
     /** 
      *  허용된 확장자 리스트(소문자로 입력).
      *  전체허용은 "*.*"
+     *  이미지 : ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tif", ".tiff", ".raw"
      * */
     ExtAllow: ["*.*"],
     //ExtAllow: [".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tif", ".tiff", ".raw"],
@@ -198,7 +202,7 @@ DG_JsFileSelector.prototype.Reset = function (jsonOptoin)
     var objThis = this;
 
     //들어온 값을 저장한다.
-    objThis.jsonOptoin = Object.assign(objThis.jsonOptoinDefult, jsonOptoin);
+    objThis.jsonOptoin = Object.assign({}, objThis.jsonOptoinDefult, jsonOptoin);
 
     //영역 초기화
     objThis.jsonOptoin.Area.empty();
@@ -363,8 +367,12 @@ DG_JsFileSelector.prototype.OnDragover = function (event, objThis, eventThis)
  * 파일 추가 - 리스트
  * @param {object} objThis 이벤트를 생성할때 전달한 자신의 오브젝트
  * @param {array} arrFile 브라우저에서 넘어온 파일 정보 배열
+ * @param {bool} bFileCountIgnore 파일 갯수 제한 무시여부
  */
-DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
+DG_JsFileSelector.prototype.FileAdd_JsonList = function (
+    objThis
+    , arrFile
+    , bFileCountIgnore)
 {
     var objThisTemp = objThis;
     if (null === objThisTemp)
@@ -372,11 +380,15 @@ DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
         objThisTemp = this;
     }
 
+    //로딩이 완료되었는지 여부
+    var bComplete = true;
+    objThisTemp.LoadCompleteMessage = "";
+
+
     //로딩이 필요한 데이터가 있는지 확인
     if (0 < arrFile.length)
     {
-        //로딩이 필요없는지 여부
-        var bResult = true;
+        
         for (var nFile = 0; nFile < arrFile.length; ++nFile)
         {
             var itemFile = arrFile[nFile];
@@ -386,11 +398,11 @@ DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
             {//BinaryIs가 없으면 바이너리를 사용한다고 가정한다.
                 //바이너리 정보를 사용하는데
                 //바이너리 준비가 끝났나지 안은 데이터가 있다.
-                bResult = false;
+                bComplete = false;
             }
         }
 
-        if (false === bResult)
+        if (false === bComplete)
         {//로딩이 필요한 데이터가 있다.
             objThisTemp.LoadCompleteIs = false;
             objThisTemp.LoadCompleteMessage = "";
@@ -398,20 +410,61 @@ DG_JsFileSelector.prototype.FileAdd_JsonList = function (objThis, arrFile)
         }
     }
 
+    var nErrorCount = 0;
     for (var i = 0; i < arrFile.length; ++i)
     {
-        objThisTemp.FileAdd_JsonItem(arrFile[i]);
+        if (1 === objThisTemp.FileAdd_JsonItem(arrFile[i], bFileCountIgnore))
+        {
+            nErrorCount += 1;
+        }
+    }
+
+    //로딩이 완료되었는지 여부
+    if (true === bComplete)
+    {//로딩이 필요한 데이터가 있다.
+    }
+    else if (nErrorCount < arrFile.length)
+    {//에러 카운트가 파일 갯수보다 적다.
+    }
+    else
+    {
+        //완료 이벤트 발생시킨다.
+        objThisTemp.LoadComplete(objThisTemp);
     }
 };
 
 /**
  * 파일 추가 - 아이템
  * @param {json} jsonFile 브라우저에서 넘어온 파일 정보
+ * @param {bool} bFileCountIgnore 파일 갯수 제한 무시여부
  */
-DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
+DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile, bFileCountIgnore)
 {
     var objThis = this;
     ++objThis.EditorDivisionCount;
+
+    //파일 무시여부가 있는지 확인
+    if (typeof objData !== "boolean")
+    {//불린값이 아니다.
+        //없으면 거짓
+        bFileCountIgnore = false;
+    }
+
+    //개수 확인
+    if (-1 === objThis.jsonOptoin.MaxFileCount
+        || true === bFileCountIgnore)
+    {//무제한
+    }
+    else
+    {//제한 있음
+        if (objThis.jsonOptoin.MaxFileCount <= objThis.ItemList_Get().length)
+        {//이미 최대치를 넘음
+            //원인을 적어준다.
+            objThis.LoadCompleteMessage += "허용갯수 초과 : " + objThis.jsonOptoin.MaxFileCount + "\n";
+            //이 아이템은 취소 시킨다.
+            return 1;
+        }
+    }
 
     //확장자 추출 정규식
     var patternExt = /\.[0-9a-z]+$/i;
@@ -443,7 +496,7 @@ DG_JsFileSelector.prototype.FileAdd_JsonItem = function (jsonFile)
             //원인을 적어준다.
             objThis.LoadCompleteMessage += "허용되지 않은 파일형식 : " + jsonItem.Name + "\n";
             //이 아이템은 취소 시킨다.
-            return;
+            return 1;
         }
     }
     
