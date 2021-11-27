@@ -212,5 +212,8 @@ DG_LoadingPopup.prototype.Close = function ()
 {
     var objThis = this;
 
-    objThis.divLoadingPopup.remove();
+    if (objThis.divLoadingPopup)
+    {//개체가 있을때만 동작
+        objThis.divLoadingPopup.remove();
+    }
 };
