@@ -1,9 +1,9 @@
 ﻿/*
- * DG jsModuleDownload 1.0
- * https://danggun.tistory.com/9729
- * https://github.com/dang-gun/DG_JsDataBind
+ * DG jsModuleLoad 1.0
+ * https://blog.danggun.net/9729
+ * https://github.com/dang-gun/DG_JavaScript_Utility/tree/master/DG_jsModuleLoad
  * 
- * test : https://dang-gun.github.io/DG_JsDataBind/test/index.html
+ * test : https://github.com/dang-gun/DotNetSamples/tree/master/JavascriptUtilTest/wwwroot/DG_jsModuleLoad
  */
 
 
@@ -11,7 +11,7 @@
 /**
  * 모듈 다운로드 기능을 생성하고 다운로드를 진행한다.
  * @param {Array} arrItmeJson 다운로드 받을 아이템 배열.
- * 구조 = [url:"다운로드할 Url", {downloadcallback: function(data){}}]
+ * 구조 = [url:"다운로드할 Url", downloadcallback: function(data){}]
  * @param {Function} funCompltCallback 리스트의 모든 아이템의 다운로드가 끝나면 전달될 콜백
  */
 function DG_jsModuleLoad(
@@ -34,7 +34,7 @@ DG_jsModuleLoad.prototype.ItemList = null;
 /**
  * 모듈 다운로드 기능을 생성하고 다운로드를 진행한다.
  * @param {any} arrItmeJson 다운로드 받을 아이템 리스트(2중 배열).
- * 구조 = [url:"다운로드할 Url", {downloadcallback: function(data){}}]
+ * 구조 = [url:"다운로드할 Url", downloadcallback: function(data){}]
  * @param {Function} funCompltCallback 리스트의 모든 아이템의 다운로드가 끝나면 전달될 콜백
  */
 DG_jsModuleLoad.prototype.ModuleDownload = function (
