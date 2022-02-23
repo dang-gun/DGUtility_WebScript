@@ -28,7 +28,8 @@ DG_MessageBox.BigIconType = {
     Error: 3,
     Question: 4,
     Success: 5,
-    Help: 6
+    Help: 6,
+    Invisible: 7
 };
 
 
@@ -144,6 +145,14 @@ DG_MessageBox.Show = function (jsonOption)
             break;
         case DG_MessageBox.BigIconType.Help:
             jsonOutput.BigIconCss = "DG_MessageBoxBigIcon_Help";
+            break;
+        case DG_MessageBox.BigIconType.Invisible:
+            jsonOutput.BigIconCss = "DG_MessageBoxBigIcon_Invisible";
+            break;
+
+        case DG_MessageBox.BigIconType.None:
+        default:
+            jsonOutput.BigIconCss = "DG_MessageBoxBigIcon_None";
             break;
     }
     
@@ -271,9 +280,18 @@ DG_MessageBox.ShowBox = function (jsonOption)
     //컨탠츠 - 큰 아이콘 *******************
     var divBigIcon = $("<div></div>");
 
+    //컨탠츠 영역의 기본 css
+    let cssContentHtml = "DG_MessageBoxContentBigIconMargin";
+
     if (jsonOpt.BigIconCss)
     {//내용물이 있으면
         divBigIcon.addClass(jsonOpt.BigIconCss);
+
+        if ("DG_MessageBoxBigIcon_None" === jsonOpt.BigIconCss)
+        {//아이콘 표시가 없다.
+            //이때는 마진을 제거한다.
+            cssContentHtml = "";
+        }
     }
     else
     {//없으면
@@ -284,7 +302,8 @@ DG_MessageBox.ShowBox = function (jsonOption)
 
 
     //컨탠츠 - html 내용****************************
-    var divContentHtml = $("<div class='DG_MessageBoxContentHtml'></div>");
+    var divContentHtml = $("<div class'DG_MessageBoxContentHtml'></div>");
+    divContentHtml.addClass(cssContentHtml);
     divContentHtml.html(jsonOpt.Content);
     divContent.append(divContentHtml);
     
