@@ -28,7 +28,17 @@
 }
 
 .DG_MessageBoxContentHtml {
+}
+
+.DG_MessageBoxContentBigIconMargin
+{
     margin-left: 60px;
+}
+
+/** 큰 아이콘 - 표시 안함 */
+.DG_MessageBoxBigIcon_None
+{
+    display:none;
 }
 
 
@@ -204,6 +214,10 @@
         box-sizing: content-box;
     }
 
+/** 큰 아이콘 - 안보임 */
+.DG_MessageBoxBigIcon_Invisible
+{
+}
 
 
 
