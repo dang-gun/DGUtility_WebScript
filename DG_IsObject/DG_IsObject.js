@@ -117,7 +117,7 @@ dgIsObject.IsStringValue = function (objData)
 dgIsObject.IsInt = function (objData) {
     var bReturn = false;
 
-    if (true === Number.isInteger(bReturn)) {
+    if (true === Number.isInteger(objData)) {
         bReturn = true;
     }
 
