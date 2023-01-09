@@ -37,6 +37,10 @@ export default class StartUp
 				}
 			]);
 
+
+		this.TextReplace.FormatGroupFavoritesAdd("Two", ["defult", "Custom"]);
+		this.TextReplace.FormatGroupFavoritesAdd(1, ["Custom"]);
+
 		let oriData: string = "test001 => {{test0011}}, \n"
 			+ "test001:test1 => {{test001:test1}}\n"
 		    + "test001 => {{test001}} \n"
@@ -59,11 +63,32 @@ export default class StartUp
 		let result: MatchResultInterface
 			= this.TextReplace.PatternBind(
 				oriData
-				, ["defult", "Custom"]
+				, ["defult"]
 				, arrMatchData);
 
 
+
+		let result2: MatchResultInterface
+			= this.TextReplace.PatternBind_Favorites(
+				oriData
+				, ["Two", "Two", 1]
+				, arrMatchData);
+
+		let result3: MatchResultInterface
+			= this.TextReplace.PatternBind(
+				oriData
+				, arrMatchData);
+
+
+		console.log("result : ");
 		console.log(result);
+
+		console.log("result2 : ");
+		console.log(result2);
+
+		console.log("result3 : ");
+		console.log(result3);
+
 		let doc = document.querySelector("#txtResult");
 		doc.innerHTML = result.ResultString;
 	}

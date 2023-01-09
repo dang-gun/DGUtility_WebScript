@@ -63,7 +63,7 @@ export interface MatchReplaceValueInterface
 /** 자주쓰는 포맷 그룹 저장 인터페이스 */
 export interface FormatGroupFavoritesInterface 
 {
-    /** 지정된 이름(혹은 숫자) */
+    /** 구문용 이름(혹은 숫자) */
     Name: string | number,
     /** 대상이 되는 포맷 이름 리스트 */
     Target: string[],

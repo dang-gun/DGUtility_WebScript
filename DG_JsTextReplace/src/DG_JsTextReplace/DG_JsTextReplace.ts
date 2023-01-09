@@ -1,5 +1,7 @@
 ﻿
 
+import { type } from "os";
+import { isArray } from "util";
 import
 	{
 		FormatItemInterface
@@ -83,32 +85,199 @@ export default class DG_JsTextReplace
 	}
 
 	/**
-	 * 패턴 바인드
-	 * 저장된 모든 포맷을 사용하여 패턴을 바인드한다.
-	 * @param sOriData
-	 * @param jsonValue
+	 * 자주쓰는 포맷 그룹 저장
+	 * @param Name 구문용 이름(혹은 숫자)
+	 * @param Target 대상이 되는 포맷 이름 리스트
 	 */
-	public PatternBind_AllGroup(
+	public FormatGroupFavoritesAdd(
+		Name: string | number
+		, Target: string[])
+	{
+		this.FormatGroupFavoritesList.push({
+			Name: Name
+			, Target: Target
+		});
+	}
+
+	printConsole(a: number): void;
+	printConsole(a: string): void;
+	printConsole(a: number, b: string): void;
+	printConsole(a: string, b: number): void;
+
+	printConsole(a: any, b?: any): void
+	{
+		console.log(a, b);
+	}
+
+	
+	/**
+	 * 패턴 바인드
+	 * 즐겨찾기로 등록된 포맷 그룹 이름을 적용하여 바인드 한다.
+	 * @param sOriData 원본 문자열
+	 * @param sFavoritesName 사용할 포맷 그룹 이름
+	 * @param jsonValue 매칭용 값
+	 * @param typeMatch 매칭 방식
+	 * @returns 매치 결과
+	 */
+	public PatternBind_Favorites(
 		sOriData: string
+		, sFavoritesName: number | string
+		, jsonValue: MatchReplaceValueInterface[])
+		: MatchResultInterface;
+	/**
+	 * 패턴 바인드
+	 * 즐겨찾기로 등록된 포맷 그룹 이름을 적용하여 바인드 한다.
+	 * @param sOriData 원본 문자열
+	 * @param arrFavoritesName 사용할 포맷 그룹 이름 리스트
+	 * @param jsonValue 매칭용 값
+	 * @param typeMatch 매칭 방식
+	 * @returns 매치 결과
+	 */
+	public PatternBind_Favorites(
+		sOriData: string
+		, arrFavoritesName: any[]
+		, jsonValue: MatchReplaceValueInterface[])
+		: MatchResultInterface;
+
+	/**
+	 * 패턴 바인드
+	 * 즐겨찾기로 등록된 포맷 그룹 이름을 적용하여 바인드 한다.
+	 * @param sOriData 원본 문자열
+	 * @param arrFavoritesName 사용할 포맷 그룹 이름 리스트(단일 숫자, 단일 문자열, 배열(숫자,문자열))
+	 * @param jsonValue 매칭용 값
+	 * @param typeMatch 매칭 방식
+	 * @returns 매치 결과
+	 */
+	public PatternBind_Favorites(
+		sOriData: string
+		, sFavoritesName: number | string | any[]
 		, jsonValue: MatchReplaceValueInterface[])
 		: MatchResultInterface
 	{
+		let arrName: string[] = [];
+
+		//숫자와 문자만 된다.
+		let arrFavoritesName: any = [];
+
+		if (false === Array.isArray(sFavoritesName))
+		{//단일 문자열이나 숫자이다.
+			arrFavoritesName.push(sFavoritesName);
+		}
+		else
+		{//배열이다.
+
+			arrFavoritesName.push(...(sFavoritesName as any[]));
+		}
+
+		//중복 제거
+		arrFavoritesName = [...(new Set(arrFavoritesName))];
+
+		for (let idx in arrFavoritesName)
+		{
+			let item: string = arrFavoritesName[idx];
+
+			arrName.push(
+				...this.FormatGroupFavoritesList
+					.filter(f => f.Name === item)
+					.map(m => m.Target)[0]);
+		}
+
+		//중복 제거
+		arrName = [...(new Set(arrName))];
+
 		return this.PatternBind(
 			sOriData
-			, this.FormatGroupList.map(m => m.FormatGroupName)
-			, jsonValue	)
+			, arrName
+			, jsonValue);
 	}
 
 
+	
+	/**
+	 * 패턴 바인드
+	 * 저장된 모든 포맷을 사용하여 패턴을 바인드한다.
+	 * @param sOriData 원본 문자열
+	 * @param jsonValue 매칭용 값
+	 */
+	public PatternBind(
+		sOriData: string
+		, jsonValue: MatchReplaceValueInterface[]
+	): MatchResultInterface
+
+	/**
+	 * 
+	 * @param sOriData 원본 문자열
+	 * @param arrFormatGroupName 사용할 포맷 그룹 이름 리스트
+	 * @param jsonValue 매칭용 값
+	 */
+	public PatternBind(
+		sOriData: string
+		, arrFormatGroupName: string[]
+		, jsonValue: MatchReplaceValueInterface[]
+	): MatchResultInterface
+
+	public PatternBind(
+		sOriData: string
+		, arrFormatGroupName?: any
+		, jsonValue?: any
+	): MatchResultInterface
+	{
+		if (true === this.MatchResultInterfaceIs(jsonValue))
+		{//arrFormatGroupName가 MatchResultInterface이다.
+
+		}
+		else
+		{//아니다.
+
+			//arrFormatGroupName 들어있는 값이 jsonValue라는 의미이므로 전달한다.
+			jsonValue = arrFormatGroupName;
+
+			//arrFormatGroupName은 전체를 쓴다는 의미이므로
+			//가지고 있는 리스트의 전체 그룹명을 넘겨준다.
+			arrFormatGroupName = this.FormatGroupList.map(m => m.FormatGroupName);
+		}
+
+
+		return this.PatternBind_Ori(
+			sOriData
+			, arrFormatGroupName
+			, jsonValue
+		);
+	}
+
+	/**
+	 * 지정된 오브젝트가 'MatchResultInterface'인지 판단
+	 * obj는 MatchResultInterface[] 이여야 true가 나온다.
+	 * @param obj
+	 */
+	private MatchResultInterfaceIs(obj: any): obj is MatchResultInterface
+	{
+		if (typeof obj === "object")
+		{
+			if (true === Array.isArray(obj))
+			{
+				let item = obj[0];
+				return ('sFindName' in item) && ('sReplaceValue' in item);
+			}
+			else
+			{
+				return false;
+			}	
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * 패턴 바인드
 	 * 패턴에 포맷을 적용하여 바인드 한다.
 	 * @param sOriData 원본 문자열
 	 * @param arrFormatGroupName 사용할 포맷 그룹 이름 리스트
 	 * @param jsonValue 매칭용 값
-	 * @param typeMatch 매칭 방식
 	 */
-	public PatternBind(
+	private PatternBind_Ori(
 		sOriData: string
 		, arrFormatGroupName: string[]
 		, jsonValue: MatchReplaceValueInterface[]
@@ -170,8 +339,6 @@ export default class DG_JsTextReplace
 			let arrTargetCut: RegTargetInterface[]
 				= this.TargetCut(arrTarget);
 
-
-			debugger;
 			if (0 < arrTargetCut.length)
 			{
 				//매치가 있었다고 표시하고
@@ -211,7 +378,6 @@ export default class DG_JsTextReplace
 						else
 						{//일치하는 패턴이 있다.
 
-							debugger;
 							//지정된 함수를 실행한다.
 							sReplaceString
 								= findFI[0].Func
@@ -233,8 +399,6 @@ export default class DG_JsTextReplace
 					
 				}//end for nTargetCutIdx
 			}
-
-			debugger;
 		}//end for nValIdx
 
 
