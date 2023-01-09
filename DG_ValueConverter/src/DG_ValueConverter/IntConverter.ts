@@ -28,10 +28,13 @@ export class IntConverter
 	public Is(sValue: string | object): boolean
 	{
 		let bReturn = false;
-		
-		if (false === isNaN(Number(sValue)))
+
+		if ("" !== sValue)
 		{
-			bReturn = true;
+			if (false === isNaN(Number(sValue)))
+			{
+				bReturn = true;
+			}
 		}
 
 		return bReturn;
