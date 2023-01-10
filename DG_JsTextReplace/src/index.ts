@@ -45,7 +45,9 @@ export default class StartUp
 			+ "test001:test1 => {{test001:test1}}\n"
 		    + "test001 => {{test001}} \n"
 			+ "test002:money => {{test002:money}}\n"
-			+ "test002:test2 => {{test002:test2}}\n";
+			+ "test002:test2 => {{test002:test2}}\n"
+			+ "test003:test2 => {{test003:test2}}\n"
+			+ "test004:test2 => {{test004}}\n";
 
 		let arrMatchData =
 			[
@@ -59,13 +61,20 @@ export default class StartUp
 				},
 			];
 
+		let aaa
+			= {
+			test003: "test-03"
+			, test004: "test-04"
+		};
+
 		
 		let result: MatchResultInterface
 			= this.TextReplace.PatternBind(
 				oriData
 				, ["defult"]
 				, arrMatchData);
-
+		console.log("result : ");
+		console.log(result);
 
 
 		let result2: MatchResultInterface
@@ -73,24 +82,32 @@ export default class StartUp
 				oriData
 				, ["Two", "Two", 1]
 				, arrMatchData);
+		console.log("result2 : ");
+		console.log(result2);
 
 		let result3: MatchResultInterface
 			= this.TextReplace.PatternBind(
 				oriData
 				, arrMatchData);
-
-
-		console.log("result : ");
-		console.log(result);
-
-		console.log("result2 : ");
-		console.log(result2);
-
 		console.log("result3 : ");
 		console.log(result3);
 
-		let doc = document.querySelector("#txtResult");
-		doc.innerHTML = result.ResultString;
+		
+		let result4: MatchResultInterface
+			= this.TextReplace.PatternBind(
+				oriData
+				, aaa);
+		console.log("result4 : ");
+		console.log(result4);
+
+
+
+
+
+
+
+		//let doc = document.querySelector("#txtResult");
+		//doc.innerHTML = result.ResultString;
 	}
 
 	TestCilck = () =>

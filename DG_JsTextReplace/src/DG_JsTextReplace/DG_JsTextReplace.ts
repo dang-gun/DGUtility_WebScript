@@ -99,16 +99,6 @@ export default class DG_JsTextReplace
 		});
 	}
 
-	printConsole(a: number): void;
-	printConsole(a: string): void;
-	printConsole(a: number, b: string): void;
-	printConsole(a: string, b: number): void;
-
-	printConsole(a: any, b?: any): void
-	{
-		console.log(a, b);
-	}
-
 	
 	/**
 	 * 패턴 바인드
@@ -197,39 +187,42 @@ export default class DG_JsTextReplace
 	 * 패턴 바인드
 	 * 저장된 모든 포맷을 사용하여 패턴을 바인드한다.
 	 * @param sOriData 원본 문자열
-	 * @param jsonValue 매칭용 값
+	 * @param arrValue 매칭용 값
 	 */
 	public PatternBind(
 		sOriData: string
-		, jsonValue: MatchReplaceValueInterface[]
+		, arrValue: MatchReplaceValueInterface[]
+	): MatchResultInterface
+
+
+	public PatternBind(
+		sOriData: string
+		, arrValue: object
 	): MatchResultInterface
 
 	/**
 	 * 
 	 * @param sOriData 원본 문자열
 	 * @param arrFormatGroupName 사용할 포맷 그룹 이름 리스트
-	 * @param jsonValue 매칭용 값
+	 * @param arrValue 매칭용 값
 	 */
 	public PatternBind(
 		sOriData: string
 		, arrFormatGroupName: string[]
-		, jsonValue: MatchReplaceValueInterface[]
+		, arrValue: MatchReplaceValueInterface[]
 	): MatchResultInterface
 
 	public PatternBind(
 		sOriData: string
 		, arrFormatGroupName?: any
-		, jsonValue?: any
+		, jsonValue?: MatchReplaceValueInterface[] | object
 	): MatchResultInterface
 	{
-		if (true === this.MatchResultInterfaceIs(jsonValue))
-		{//arrFormatGroupName가 MatchResultInterface이다.
+		if (undefined === jsonValue || null === jsonValue)
+		{//jsonValue가 없다.
 
-		}
-		else
-		{//아니다.
-
-			//arrFormatGroupName 들어있는 값이 jsonValue라는 의미이므로 전달한다.
+			//jsonValue가 없으면 arrFormatGroupName에
+			//jsonValue가 들어 있다는 의미다.
 			jsonValue = arrFormatGroupName;
 
 			//arrFormatGroupName은 전체를 쓴다는 의미이므로
@@ -237,37 +230,46 @@ export default class DG_JsTextReplace
 			arrFormatGroupName = this.FormatGroupList.map(m => m.FormatGroupName);
 		}
 
+		
+		if (true === this.MatchReplaceValueInterfaceIs(jsonValue))
+		{//arrFormatGroupName가 MatchResultInterface이다.
+		}
+		else
+		{//아니다.
 
+			//이러면 데이터 json일 수 있다는 의미다.
+			let arrNewValue: MatchReplaceValueInterface[] = [];
+
+			try
+			{
+				let jsonValueTemp: object = jsonValue as object;
+				let arrKey: string[] = Object.keys(jsonValue);
+
+				arrKey.forEach((item, idx) =>
+				{
+
+					let newMRV: MatchReplaceValueInterface = {
+						sFindName: item
+						, sReplaceValue: jsonValueTemp[item as keyof object]
+					};
+
+					arrNewValue.push(newMRV);
+				});
+			}
+			catch
+			{
+
+			}
+
+			jsonValue = arrNewValue;
+		}
+
+		
 		return this.PatternBind_Ori(
 			sOriData
 			, arrFormatGroupName
-			, jsonValue
+			, jsonValue as MatchReplaceValueInterface[]
 		);
-	}
-
-	/**
-	 * 지정된 오브젝트가 'MatchResultInterface'인지 판단
-	 * obj는 MatchResultInterface[] 이여야 true가 나온다.
-	 * @param obj
-	 */
-	private MatchResultInterfaceIs(obj: any): obj is MatchResultInterface
-	{
-		if (typeof obj === "object")
-		{
-			if (true === Array.isArray(obj))
-			{
-				let item = obj[0];
-				return ('sFindName' in item) && ('sReplaceValue' in item);
-			}
-			else
-			{
-				return false;
-			}	
-		}
-		else
-		{
-			return false;
-		}
 	}
 	
 	/**
@@ -416,50 +418,54 @@ export default class DG_JsTextReplace
 	{
 		let arrReturn: RegTargetInterface[] = [];
 
-		//일치하는 대상 기준으로 일치하는 패턴을 찾는다.
-		for (let nRegIdx: number = 0
-			; nRegIdx < arrRegTarget.length
-			; ++nRegIdx)
+		if (null !== arrRegTarget
+			&& undefined !== arrRegTarget)
 		{
-			let item: string = arrRegTarget[nRegIdx];
 
-			//배열에 추가할 개체
-			let itemResult: RegTargetInterface = {
-				OriData: item
-				, Name: ""
-				, Format: ""
-			};
-
-			//앞뒤 구분자를 제거한다.
-			let sCut1
-				= item.substring(0, item.length - this.Mark_BackOri.length)
-					.substring(this.Mark_FrontOri.length);
-
-			//이름과 사용할 패턴을 구분해준다.
-			let nFindIdx: number = sCut1.indexOf(":");
-			
-			if (0 < nFindIdx)
+			//일치하는 대상 기준으로 일치하는 패턴을 찾는다.
+			for (let nRegIdx: number = 0
+				; nRegIdx < arrRegTarget.length
+				; ++nRegIdx)
 			{
-				itemResult.Name = sCut1.slice(0, nFindIdx);
-				itemResult.Format = sCut1.slice(nFindIdx + 1);
-			}
-			else
-			{
-				//인덱스가 없으면 포맷이 없다는 의미다.
-				itemResult.Name = sCut1.slice(0);
-			}
-			
+				let item: string = arrRegTarget[nRegIdx];
+
+				//배열에 추가할 개체
+				let itemResult: RegTargetInterface = {
+					OriData: item
+					, Name: ""
+					, Format: ""
+				};
+
+				//앞뒤 구분자를 제거한다.
+				let sCut1
+					= item.substring(0, item.length - this.Mark_BackOri.length)
+						.substring(this.Mark_FrontOri.length);
+
+				//이름과 사용할 패턴을 구분해준다.
+				let nFindIdx: number = sCut1.indexOf(":");
+
+				if (0 < nFindIdx)
+				{
+					itemResult.Name = sCut1.slice(0, nFindIdx);
+					itemResult.Format = sCut1.slice(nFindIdx + 1);
+				}
+				else
+				{
+					//인덱스가 없으면 포맷이 없다는 의미다.
+					itemResult.Name = sCut1.slice(0);
+				}
 
 
-			if (false === arrReturn.includes(itemResult))
-			{//일치하는 값이 없다.
 
-				//리턴할 배열에 추가
-				arrReturn.push(itemResult);
-			}
-			
-		}//end for nRegIdx
+				if (false === arrReturn.includes(itemResult))
+				{//일치하는 값이 없다.
 
+					//리턴할 배열에 추가
+					arrReturn.push(itemResult);
+				}
+
+			}//end for nRegIdx
+		}
 
 		return arrReturn;
 	}
@@ -467,19 +473,46 @@ export default class DG_JsTextReplace
 
 	/**
 	 * 지정한 문자열을 모두 찾아 
-	 * @param {string} sOriData 원본
-	 * @param {string} sSearch 찾을 문자열
-	 * @param {string} sReplacement 바꿀 문자열
-	 * @returns {string} 완성된 결과
+	 * @param sOriData 원본
+	 * @param sSearch 찾을 문자열
+	 * @param sReplacement 바꿀 문자열
+	 * @returns 완성된 결과
 	 */
-	public ReplaceAll = function (sOriData, sSearch, sReplacement)
+	public ReplaceAll = function (sOriData: string, sSearch: string, sReplacement: string)
 	{
 		return sOriData.replace(new RegExp(sSearch, 'g'), sReplacement);
 	};
+
+
+	/**
+	 * 지정된 오브젝트가 'MatchReplaceValueInterface'인지 판단
+	 * obj는 MatchReplaceValueInterface[] 이여야 true가 나온다.
+	 * @param obj
+	 */
+	private MatchReplaceValueInterfaceIs(obj: any): obj is MatchReplaceValueInterface
+	{
+		if (typeof obj === "object")
+		{
+			if (true === Array.isArray(obj))
+			{
+				let item = obj[0];
+				return ('sFindName' in item) && ('sReplaceValue' in item);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }
 
 /** 정규식으로 찾아낸 대상의 데이터를 처리하기 쉽도록 가공한 리스트에 사용할 인터페이스 */
-export interface RegTargetInterface 
+interface RegTargetInterface 
 {
 	/** 원본 문자열 */
 	OriData: string,
@@ -489,3 +522,4 @@ export interface RegTargetInterface
 	/** 패턴 부분 문자열 */
 	Format: string,
 }
+
