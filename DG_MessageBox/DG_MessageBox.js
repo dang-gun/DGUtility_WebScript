@@ -264,6 +264,7 @@ DG_MessageBox.ShowBox = function (jsonOption)
         /** 팝업 안에 표시할 컨탠츠
          * 오브젝트도 가능하다. */
         Content: "",
+        /** 컨탠츠에 적용할 css */
         ContentCss: jsonOpt.ContentCss
     };
 
