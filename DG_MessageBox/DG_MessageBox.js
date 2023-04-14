@@ -263,7 +263,8 @@ DG_MessageBox.ShowBox = function (jsonOption)
 
         /** 팝업 안에 표시할 컨탠츠
          * 오브젝트도 가능하다. */
-        Content: ""
+        Content: "",
+        ContentCss: jsonOpt.ContentCss
     };
 
 
@@ -276,7 +277,6 @@ DG_MessageBox.ShowBox = function (jsonOption)
 
     //컨탠츠
     var divContent = $("<div class='DG_MessageBoxContent'></div>");
-    divContent.addClass(jsonOpt.ContentCss);
 
     //컨탠츠 - 큰 아이콘 *******************
     var divBigIcon = $("<div></div>");
