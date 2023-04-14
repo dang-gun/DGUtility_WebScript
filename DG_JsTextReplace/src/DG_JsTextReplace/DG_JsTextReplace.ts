@@ -13,7 +13,6 @@ import
 export * from "./MatchPatternItemInterface";
 
 
-
 /**
  * \{\{[a-zA-Z0-9]+\:[a-zA-Z0-9]+\}\}|\{\{[a-zA-Z0-9]+\}\}/g
  * test : {{aa:11a1}}, {{aa:222a}}, {{dd:33a3}}, {{cc22}}, {{2eee22:}}
@@ -64,6 +63,9 @@ export default class DG_JsTextReplace
 	/** 자주쓰는 포맷 그룹 */
 	public FormatGroupFavoritesList: FormatGroupFavoritesInterface[] = [];
 
+	/**
+	 * 문자열을 변환하는 개체를 생성한다.
+	 */
 	constructor()
 	{
 	}
@@ -201,7 +203,7 @@ export default class DG_JsTextReplace
 	): MatchResultInterface
 
 	/**
-	 * 
+	 * 패턴 바인드
 	 * @param sOriData 원본 문자열
 	 * @param arrFormatGroupName 사용할 포맷 그룹 이름 리스트
 	 * @param arrValue 매칭용 값
@@ -212,6 +214,12 @@ export default class DG_JsTextReplace
 		, arrValue: MatchReplaceValueInterface[]
 	): MatchResultInterface
 
+	/**
+	 * 패턴 바인드
+	 * @param sOriData
+	 * @param arrFormatGroupName
+	 * @param jsonValue
+	 */
 	public PatternBind(
 		sOriData: string
 		, arrFormatGroupName?: any
