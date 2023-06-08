@@ -40,7 +40,7 @@ module.exports = (env, argv) =>
             /** 빌드 위치 */
             path: OutputPath,
             /** 빌드 후 최종적으로 만들어질 파일 */
-            filename: 'DG_Popup.js',
+            filename: 'DG_Popup2.js',
             publicPath: "/"
         },
         module: {
