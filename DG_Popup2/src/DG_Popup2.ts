@@ -70,20 +70,20 @@ class DG_Popup2
     private PopupIndex: number = 0;
 
     /** 현재 선택된 인덱스 */
-    public CurrentSelectIndex: number = 0;
+    private CurrentSelectIndex: number = 0;
     /** 현재 선택된 팝업 */
-    public CurrentSelectDiv: HTMLDivElement | null = null;
+    private CurrentSelectDiv: HTMLDivElement | null = null;
 
     /**
      * 0: 없음
      * 1: 다운
      * 2: 업
      */
-    public MouseState: number = 0;
+    private MouseState: number = 0;
     /** 마우스 다운 계산값 X */
-    public MouseDownX: number = 0;
+    private MouseDownX: number = 0;
     /** 마우스 다운 계산값 Y */
-    public MouseDownY: number = 0;
+    private MouseDownY: number = 0;
 
     /** 팝업이 생성되면 쌓이게 될 배열 */
     private List: HTMLDivElement[] = [];
