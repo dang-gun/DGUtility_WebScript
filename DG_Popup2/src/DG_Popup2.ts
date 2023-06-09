@@ -1,3 +1,12 @@
+/**
+ * Multiple analog
+ * 다중 다얄로그
+ * 다중 팝업 라이브러리
+ * 기존 DG_Popup에 ES6 문법을 적용과 타입스크립트를 적용한 버전
+ * 
+ * Name: DG_Popup2
+ * Version: 1.0.0
+ * */
 class DG_Popup2
 {
     private ShowDefaultOption: JsonShowDefaultOption = {
@@ -282,7 +291,7 @@ class DG_Popup2
      * 팝업의 부모 Element를 생성한다.
      * @param {JsonShowDefaultOption} NewJsonOption 사용자 정의 옵션
      * @param {number} nPopupIndex 팝업 인덱스
-     * @returns
+     * @returns {HTMLDivElement} 생성된 부모 Element
      */
     private CreatePopupParent(NewJsonOption: JsonShowDefaultOption, nPopupIndex: number): HTMLDivElement
     {
@@ -301,6 +310,13 @@ class DG_Popup2
         return PopupParentElement;
     }
 
+    /**
+     * 팝업의 Overlay Element를 생성한다.
+     * @param {JsonShowDefaultOption} NewJsonOption 사용자 정의 옵션
+     * @param {number} nPopupIndex 팝업 인덱스
+     * @param {number} nZIndex z-index
+     * @returns {HTMLDivElement} 생성된 Overlay Element
+     */
     private CreatePopupOverlay(NewJsonOption: JsonShowDefaultOption, nPopupIndex: number, nZIndex: number): HTMLDivElement
     {
         // Overlay를 생성한다.
@@ -334,6 +350,13 @@ class DG_Popup2
         return PopupOverlayElement;
     }
 
+    /**
+     * 팝업의 컨텐츠 Element를 생성한다.
+     * @param {JsonShowDefaultOption} NewJsonOption 사용자 정의 옵션
+     * @param {number} nPopupIndex 팝업 인덱스
+     * @param {number} nZIndex z-index
+     * @returns {HTMLDivElement} 생성된 컨텐츠 Element
+     */
     private CreatePopupContent(NewJsonOption: JsonShowDefaultOption, nPopupIndex: number, nZIndex: number): HTMLDivElement
     {
         // 컨텐츠용 div를 생성한다.
@@ -406,7 +429,12 @@ class DG_Popup2
         return PopupContentElement;
     }
 
-    private TitleMouseDownEvent = (event: MouseEvent) =>
+    /**
+     * 팝업의 타이틀을 마우스로 클릭했을 때 이벤트
+     * @param {MouseEvent} event 이벤트 객체
+     * @returns {void}
+     */
+    private TitleMouseDownEvent = (event: MouseEvent): void =>
     {
         const target = event.target as HTMLDivElement;
         // 타겟이 div.DG_PopupTitle이 아닐 경우 이벤트를 발생시키지 않는다.
@@ -431,7 +459,12 @@ class DG_Popup2
         this.MouseDownY = event.clientY - this.CutBack(this.CurrentSelectDiv.style.top);
     };
 
-    private TitleMouseMoveEvent = (event: MouseEvent) =>
+    /**
+     * 팝업의 타이틀을 마우스로 클릭한 상태에서 이동했을 때 이벤트
+     * @param {MouseEvent} event 이벤트 객체
+     * @returns {void}
+     */
+    private TitleMouseMoveEvent = (event: MouseEvent): void =>
     {
         if (1 === this.MouseState)
         {
@@ -442,13 +475,19 @@ class DG_Popup2
         }
     };
 
-    private TitleMouseUpEvent = (event: MouseEvent) =>
+    /**
+     * 팝업의 타이틀을 마우스로 클릭한 상태에서 뗐을 때 이벤트
+     * @param {MouseEvent} event 이벤트 객체
+     * @returns {void}
+     */
+    private TitleMouseUpEvent = (event: MouseEvent): void =>
     {
         // 마우스 상태 변경
         this.MouseState = 2;
     };
 }
 
+/** 팝업을 생성할 때 사용할 옵션 타입 정의 */
 interface JsonShowDefaultOption
 {
     /**

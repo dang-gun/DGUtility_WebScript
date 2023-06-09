@@ -87,17 +87,16 @@
         /** DG_Popup 초기화 */
         const DG_Popup = new DG_Popup2({});
 
-        var popTemp = null;
-
-        var nCount = 0;
+        let popTemp = null;
+        let nCount = 0;
 
         /** 팝업 열기 예제 */
         function Show(nType)
         {
             ++nCount;
 
-            var nTop = 0;
-            var nLeft = 0;
+            let nTop = 0;
+            let nLeft = 0;
 
             switch (nType)
             {
@@ -112,23 +111,22 @@
                     break;
             }
 
-            var TestContentsHtml = '\
-                    <div><div><div class="divTitle DG_PopupTitle">생성 순서 : '
-                + nCount +
-                '</div> \
-                    <div class="divContents"> \
-                        내용물<br />\
-                        내용물2\
-                        <br />\
-                            <button onclick="Show()">Add New Popup!!</button>\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <button onclick="CloseAll()">All Close</button>\
-                        <br />\
-                        <button onclick="Close()">Close</button>\
-                    </div></div></div>';
+            const TestContentsHtml = `
+                <div><div><div class="divTitle DG_PopupTitle">생성 순서 : ${nCount}</div> 
+                <div class="divContents"> 
+                    내용물<br />
+                    내용물2
+                    <br />
+                        <button onclick="Show()">Add New Popup!!</button>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <button onclick="CloseAll()">All Close</button>
+                    <br />
+                    <button onclick="Close()">Close</button>
+                </div></div></div>
+            `;
 
             popTemp = DG_Popup.Show({
                 Content: TestContentsHtml,
@@ -149,8 +147,8 @@
         {
             ++nCount;
 
-            var nTop = 0;
-            var nLeft = 0;
+            let nTop = 0;
+            let nLeft = 0;
 
             switch (nType)
             {
@@ -165,23 +163,22 @@
                     break;
             }
 
-            var TestContentsHtml = '\
-                    <div><div><div class="divTitle DG_PopupTitle">생성 순서 : '
-                + nCount +
-                '</div> \
-                    <div class="divContents"> \
-                        내용물<br />\
-                        내용물2\
-                        <br />\
-                            <button onclick="Show2()">Add New Popup!!</button>\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <button onclick="CloseAll()">All Close</button>\
-                        <br />\
-                        <button onclick="Close()">Close</button>\
-                    </div></div></div>';
+            const TestContentsHtml = `
+                <div><div><div class="divTitle DG_PopupTitle">생성 순서 : ${nCount}</div> 
+                <div class="divContents"> 
+                    내용물<br />
+                    내용물2
+                    <br />
+                        <button onclick="S how2()">Add New Popup!!</button>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <button onclick="CloseAll()">All Close</button>
+                    <br />
+                    <button onclick="Close()">Close</button>
+                </div></div></div>
+            `;
 
             popTemp = DG_Popup.Show({
                 Content: TestContentsHtml,
@@ -204,10 +201,10 @@
         {
             ++nCount;
 
-            var nTop = 0;
-            var nLeft = 0;
+            let nTop = 0;
+            let nLeft = 0;
 
-            var nType = getRandomInt(0, 3);
+            let nType = getRandomInt(0, 3);
 
             //테스트
             nType = 0;
@@ -233,23 +230,22 @@
                     break;
             }
 
-            var TestContentsHtml = '\
-                    <div><div><div class="divTitle DG_PopupTitle">생성 순서 : '
-                + nCount +
-                '</div> \
-                    <div class="divContents"> \
-                        내용물<br />\
-                        내용물2\
-                        <br />\
-                            <button onclick="Show3()">Add New Popup!!</button>\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <br />\
-                        <button onclick="CloseAll()">All Close</button>\
-                        <br />\
-                        <button onclick="Close()">Close</button>\
-                    </div></div></div>';
+            let TestContentsHtml = `
+                <div><div><div class="divTitle DG_PopupTitle">생성 순서 : ${nCount}</div> 
+                <div class="divContents"> 
+                    내용물<br />
+                    내용물2
+                    <br />
+                        <button onclick="Show3()">Add New Popup!!</button>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <button onclick="CloseAll()">All Close</button>
+                    <br />
+                    <button onclick="Close()">Close</button>
+                </div></div></div>
+            `
 
             popTemp = DG_Popup.Show({
                 Content: TestContentsHtml,
