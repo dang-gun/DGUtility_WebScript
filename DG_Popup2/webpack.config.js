@@ -65,7 +65,7 @@ module.exports = (env, argv) =>
             }),
 
             // index.html 파일을 빌드 폴더에 복사한다.
-            new HtmlWebpackPlugin({ template: IndexHtmlPath })
+            new HtmlWebpackPlugin({ template: IndexHtmlPath, inject: false })
         ],
         devServer: {
             /** 서비스 포트 */
