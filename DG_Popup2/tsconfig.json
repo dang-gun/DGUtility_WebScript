@@ -8,9 +8,6 @@
         "lib": [ "es6", "dom" ],
         "allowJs": true,
         "moduleResolution": "node",
-        "paths": {
-            "@/*": [ "src/*" ]
-        },
         "allowSyntheticDefaultImports": true
     },
     "exclude": [
