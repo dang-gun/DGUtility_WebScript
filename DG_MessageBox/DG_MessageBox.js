@@ -80,7 +80,7 @@ DG_MessageBox.Initialize = function (jsonShowOptionDefault)
 
     //기본 옵션
     var jsonOpt = Object.assign({}, DG_MessageBox.ShowOptionDefault
-                                , jsonShowOptionDefault);
+        , jsonShowOptionDefault);
     DG_MessageBox.ShowOptionDefault = jsonOpt;
 };
 
@@ -93,7 +93,7 @@ DG_MessageBox.Show = function (jsonOption)
 {
     //완성된 옵션
     var jsonOpt = Object.assign({}, DG_MessageBox.ShowOptionDefault, jsonOption);
-    
+
     var jsonOutput = {
         /** 시작위치 - Y */
         top: jsonOpt.top,
@@ -155,7 +155,7 @@ DG_MessageBox.Show = function (jsonOption)
             jsonOutput.BigIconCss = "DG_MessageBoxBigIcon_None";
             break;
     }
-    
+
     //표시 버튼 타입
     switch (jsonOpt.ButtonShowType)
     {
@@ -304,11 +304,11 @@ DG_MessageBox.ShowBox = function (jsonOption)
 
 
     //컨탠츠 - html 내용****************************
-    var divContentHtml = $("<div class'DG_MessageBoxContentHtml'></div>");
+    var divContentHtml = $("<div class='DG_MessageBoxContentHtml'></div>");
     divContentHtml.addClass(cssContentHtml);
     divContentHtml.html(jsonOpt.Content);
     divContent.append(divContentHtml);
-    
+
 
     //푸터****************************************
     var divFooter = $("<div class='DG_MessageBoxFooter'></div>");
