@@ -1,90 +1,72 @@
-import DG_Popup2 from '../../DG_Popup2/src/DG_Popup2';
-
+import DG_Popup2 from '../../DG_Popup2/src/DG_Popup2.js';
 export default class DG_MessageBox2
 {
-    private ShowDefaultOption: MessageBoxShowDefaultOption = {
-        /** 시작위치 - Y */
-        top: 50,
-        /** 시작위치 - X */
-        left: "center",
-
-        /** 팝업이 완성되면 크기를 고정할지 여부 
-            이 옵션이 없으면 창이동시 크기가 변경될수 있다.
-        */
-        SizeFixed: true,
-
-        //제목
-        Title: "",
-        //내용
-        Content: "",
-
-        //큰 아이콘 타입
-        BigIconType: BigIconType.None,
-
-        //버튼 타입
-        ButtonShowType: ButtonShowType.Ok,
-
-        //버튼 이벤트
-        //function (DG_MessageBox.ButtonType)
-        //DG_MessageBox.ButtonType : 클릭된 버튼 정보
-        ButtonEvent: null,
-
-        //컨탠츠에 적용할 css
-        ContentCss: "DG_MessageBoxContentCss"
-    };
-
-    // 사용할 div element
-    private MessageBoxElement: HTMLDivElement | null = null;
-
-    public DG_Popup: DG_Popup2 = new DG_Popup2({});
-
-    constructor(jsonShowDefaultOption: MessageBoxShowDefaultOption)
+    constructor(jsonShowDefaultOption)
     {
+        this.ShowDefaultOption = {
+            /** 시작위치 - Y */
+            top: 50,
+            /** 시작위치 - X */
+            left: "center",
+            /** 팝업이 완성되면 크기를 고정할지 여부
+                이 옵션이 없으면 창이동시 크기가 변경될수 있다.
+            */
+            SizeFixed: true,
+            //제목
+            Title: "",
+            //내용
+            Content: "",
+            //큰 아이콘 타입
+            BigIconType: BigIconType.None,
+            //버튼 타입
+            ButtonShowType: ButtonShowType.Ok,
+            //버튼 이벤트
+            //function (DG_MessageBox.ButtonType)
+            //DG_MessageBox.ButtonType : 클릭된 버튼 정보
+            ButtonEvent: null,
+            //컨탠츠에 적용할 css
+            ContentCss: "DG_MessageBoxContentCss"
+        };
+        // 사용할 div element
+        this.MessageBoxElement = null;
+        this.DG_Popup = new DG_Popup2({});
         console.log('start');
         // 기본 옵션을 사용자 옵션으로 덮어쓴다.
         this.ShowDefaultOption = Object.assign({}, this.ShowDefaultOption, jsonShowDefaultOption);
     }
-
     /**
      * 미리 만들어진 메세지 박스를 출력한다.
      * @param {JsonShowDefaultOption} jsonOption 사용자 정의 옵션
      */
-    public Show(jsonOption: MessageBoxShowDefaultOption)
+    Show(jsonOption)
     {
         // 기본 옵션을 사용자 옵션으로 덮어쓴다.
-        const NewJsonOption: MessageBoxShowDefaultOption = Object.assign({}, this.ShowDefaultOption, jsonOption);
-
-        const JsonOutPut: MessageBoxShowDefaultOption = {
+        const NewJsonOption = Object.assign({}, this.ShowDefaultOption, jsonOption);
+        const JsonOutPut = {
             /** 시작위치 - Y */
             top: NewJsonOption.top,
             /** 시작위치 - X */
             left: NewJsonOption.left,
-
-            /** 팝업이 완성되면 크기를 고정할지 여부 
+            /** 팝업이 완성되면 크기를 고정할지 여부
                 이 옵션이 없으면 창이동시 크기가 변경될수 있다.
             */
             SizeFixed: NewJsonOption.SizeFixed,
-
             //제목
             Title: NewJsonOption.Title,
             //내용
             Content: NewJsonOption.Content,
-
             //버튼 정보 배열
             //ButtonCss : 추가할 css
             //ButtonType : 버튼의 타입, DG_MessageBox.ButtonType
             //ButtonText : 표시할 텍스트
             Buttons: [],
-
             //버튼 이벤트
             //function (DG_MessageBox.ButtonType)
             //DG_MessageBox.ButtonType : 클릭된 버튼 정보
             ButtonEvent: NewJsonOption.ButtonEvent,
-
             //컨탠츠에 적용할 css
             ContentCss: NewJsonOption.ContentCss
         };
-
         // BicIconType
         switch (NewJsonOption.BigIconType)
         {
@@ -114,7 +96,6 @@ export default class DG_MessageBox2
                 JsonOutPut.BigIconCss = "DG_MessageBoxBigIcon_None";
                 break;
         }
-
         // 표시 버튼 타입
         switch (NewJsonOption.ButtonShowType)
         {
@@ -165,92 +146,74 @@ export default class DG_MessageBox2
                 });
                 break;
         }
-
         this.ShowBox(JsonOutPut);
     }
-
     /**
      * 메시지 박스를 표시한다.
      * @param {JsonShowDefaultOption} jsonOption 창옵션
      */
-    public ShowBox(jsonOption: MessageBoxShowDefaultOption)
+    ShowBox(jsonOption)
     {
-        const JsonOptionDefault: MessageBoxShowDefaultOption = {
-            /** 팝업이 완성되면 크기를 고정할지 여부 
+        const JsonOptionDefault = {
+            /** 팝업이 완성되면 크기를 고정할지 여부
             이 옵션이 없으면 창이동시 크기가 변경될수 있다.
             */
             SizeFixed: false,
-
             //제목
             Title: "",
             //내용
             Content: "",
-
             //큰 아이콘으로 사용할 css
             BigIconCss: "",
-
             //버튼 정보 배열
             //ButtonCss : 추가할 css
             //ButtonType : 버튼의 타입, DG_MessageBox.ButtonType
             //ButtonText : 표시할 텍스트
             Buttons: [],
-
             //버튼 이벤트
             //function (DG_MessageBox.ButtonType)
             //DG_MessageBox.ButtonType : 클릭된 버튼 정보
             ButtonEvent: null,
-
             //컨탠츠에 적용할 css
             ContentCss: "DG_MessageBoxContentCss"
         };
-
         // 기본 옵션을 사용자 옵션으로 덮어쓴다.
-        const NewJsonOption: MessageBoxShowDefaultOption = Object.assign({}, JsonOptionDefault, jsonOption);
-
-        const JsonTossOption: MessageBoxShowDefaultOption = {
+        const NewJsonOption = Object.assign({}, JsonOptionDefault, jsonOption);
+        const JsonTossOption = {
             /** 시작위치 - Y */
             top: NewJsonOption.top,
             /** 시작위치 - X */
             left: NewJsonOption.left,
             /** 보고 있는 위치 기준 창띄우기 */
             StartViewWeight: true,
-
             /** 팝업이 완성되면 크기를 고정할지 여부
                 이 옵션이 없으면 창이동시 크기가 변경될수 있다.
             */
             SizeFixed: NewJsonOption.SizeFixed,
-
             /** 팝업 안에 표시할 컨탠츠
              * 오브젝트도 가능하다. */
             Content: "",
             /** 컨탠츠에 적용할 css */
             ContentCss: NewJsonOption.ContentCss
         };
-
         // 엘리먼트를 추가할 비어 있는 Fragment를 생성한다.
-        const Fragment: DocumentFragment = document.createDocumentFragment();
-
+        const Fragment = document.createDocumentFragment();
         // 타이틀 엘리먼트를 생성한다.
-        const TitleElement: HTMLDivElement = document.createElement("div");
+        const TitleElement = document.createElement("div");
         TitleElement.classList.add("DG_PopupTitle");
         TitleElement.classList.add("DG_MessageBoxTitle");
         TitleElement.textContent = NewJsonOption.Title;
-
         // 컨텐츠 엘리먼트를 생성한다.
-        const ContentElement: HTMLDivElement = document.createElement("div");
+        const ContentElement = document.createElement("div");
         ContentElement.classList.add("DG_MessageBoxContent");
-
         // 컨텐츠에 적용할 BigIcon을 생성한다.
-        const BigIconElement: HTMLDivElement = document.createElement("div");
-
+        const BigIconElement = document.createElement("div");
         // 컨텐츠 엘리먼트 기본 css
-        let cssContentHtml: string = "DG_MessageBoxContentBigIconMargin";
-
+        let cssContentHtml = "DG_MessageBoxContentBigIconMargin";
         if (NewJsonOption.BigIconCss)
         {
             // BigIconCss가 있으면 적용한다.
             BigIconElement.classList.add(NewJsonOption.BigIconCss);
-
             if ("DG_MessageBoxBigIcon_None" === NewJsonOption.BigIconCss)
             {
                 // 아이콘 표시가 없으면 마진을 제거
@@ -259,139 +222,77 @@ export default class DG_MessageBox2
         }
         else
         {
-
         }
-
         // BigIcon을 컨텐츠에 추가한다.
         ContentElement.appendChild(BigIconElement);
-
         // 컨텐츠 html 내용
-        const ContentElementHtml: HTMLDivElement = document.createElement("div");
+        const ContentElementHtml = document.createElement("div");
         ContentElement.className = cssContentHtml;
         if (typeof NewJsonOption.Content === 'string')
         {
             ContentElementHtml.innerHTML = NewJsonOption.Content;
         }
         ContentElement.appendChild(ContentElementHtml);
-
         //푸터****************************************
-        const FooterElement: HTMLDivElement = document.createElement("div");
+        const FooterElement = document.createElement("div");
         FooterElement.classList.add("DG_MessageBoxFooter");
-
         // 버튼 추가
         for (let i = 0; i < NewJsonOption.Buttons.length; i++)
         {
             // 현재 버튼 정보
-            const ButtonItem: ButtonItem = NewJsonOption.Buttons[i];
-
+            const ButtonItem = NewJsonOption.Buttons[i];
             // 추가할 버튼
-            const ButtonElement: HTMLButtonElement = document.createElement("button");
+            const ButtonElement = document.createElement("button");
             ButtonElement.classList.add(ButtonItem.ButtonCss);
             ButtonElement.dataset.buttonType = ButtonItem.ButtonType.toString();
             ButtonElement.textContent = ButtonItem.ButtonText;
-            ButtonElement.addEventListener("click", (event: MouseEvent) =>
+            ButtonElement.addEventListener("click", (event) =>
             {
-                const target = event.target as HTMLButtonElement;
+                const target = event.target;
                 NewJsonOption.ButtonEvent(Number(target.dataset.buttonType));
             });
-
             // 버튼을 푸터에 추가한다.
             FooterElement.appendChild(ButtonElement);
         }
-
         // 최종 엘리먼트를 생성하고 Fragment에 추가한다.
         Fragment.appendChild(TitleElement);
         Fragment.appendChild(ContentElement);
         Fragment.appendChild(FooterElement);
-
         JsonTossOption.Content = Fragment;
-
         // 메세지 박스를 표시한다.
         this.DG_Popup.Show(JsonTossOption);
     }
 }
-
-export interface MessageBoxShowDefaultOption
-{
-    /** 시작위치 - Y */
-    top?: number,
-    /** 시작위치 - X */
-    left?: number | "center",
-
-    /** 팝업이 완성되면 크기를 고정할지 여부 
-        이 옵션이 없으면 창이동시 크기가 변경될수 있다.
-     */
-    SizeFixed?: boolean,
-
-    /** 보고 있는 위치 기준 창띄우기 */
-    StartViewWeight?: boolean,
-
-    //제목
-    Title?: string,
-
-    //내용
-    Content?: string | DocumentFragment | HTMLElement,
-
-    //큰 아이콘 타입
-    BigIconType?: BigIconType,
-
-    //버튼 타입
-    ButtonShowType?: ButtonShowType,
-
-    // 버튼 정보 배열
-    Buttons?: ButtonItem[];
-
-    //버튼 이벤트
-    //function (DG_MessageBox.ButtonType)
-    //DG_MessageBox.ButtonType : 클릭된 버튼 정보
-    ButtonEvent?: (ButtonType: ButtonType) => void,
-
-    // BigIcon css
-    BigIconCss?: string,
-
-    //컨탠츠에 적용할 css
-    ContentCss?: string;
-}
-
-interface ButtonItem
-{
-    // 버튼 css
-    ButtonCss: string,
-    // 버튼 타입
-    ButtonType: ButtonType,
-    // 버튼 텍스트
-    ButtonText: string;
-}
-
 /** 선택된 버튼의 인덱스 */
-enum ButtonShowType
+var ButtonShowType;
+(function (ButtonShowType)
 {
-    None = 0,
-    Ok = 1,
-    OkCancel = 2,
-    Cancel = 3,
-    YesNo = 4
-}
-
+    ButtonShowType[ButtonShowType["None"] = 0] = "None";
+    ButtonShowType[ButtonShowType["Ok"] = 1] = "Ok";
+    ButtonShowType[ButtonShowType["OkCancel"] = 2] = "OkCancel";
+    ButtonShowType[ButtonShowType["Cancel"] = 3] = "Cancel";
+    ButtonShowType[ButtonShowType["YesNo"] = 4] = "YesNo";
+})(ButtonShowType || (ButtonShowType = {}));
 /** 각 버튼별 인덱스 */
-enum ButtonType
+var ButtonType;
+(function (ButtonType)
 {
-    None = 0,
-    Ok = 1,
-    Cancel = 2,
-    Yes = 3,
-    No = 4
-}
-
+    ButtonType[ButtonType["None"] = 0] = "None";
+    ButtonType[ButtonType["Ok"] = 1] = "Ok";
+    ButtonType[ButtonType["Cancel"] = 2] = "Cancel";
+    ButtonType[ButtonType["Yes"] = 3] = "Yes";
+    ButtonType[ButtonType["No"] = 4] = "No";
+})(ButtonType || (ButtonType = {}));
 /** 빅아이콘 인덱스 */
-enum BigIconType
+var BigIconType;
+(function (BigIconType)
 {
-    None = 0,
-    Info = 1,
-    Warning = 2,
-    Error = 3,
-    Question = 4,
-    Success = 5,
-    Help = 6,
-    Invisible = 7
-}
+    BigIconType[BigIconType["None"] = 0] = "None";
+    BigIconType[BigIconType["Info"] = 1] = "Info";
+    BigIconType[BigIconType["Warning"] = 2] = "Warning";
+    BigIconType[BigIconType["Error"] = 3] = "Error";
+    BigIconType[BigIconType["Question"] = 4] = "Question";
+    BigIconType[BigIconType["Success"] = 5] = "Success";
+    BigIconType[BigIconType["Help"] = 6] = "Help";
+    BigIconType[BigIconType["Invisible"] = 7] = "Invisible";
+})(BigIconType || (BigIconType = {}));

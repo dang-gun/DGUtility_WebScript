@@ -1,21 +1,15 @@
 <!doctype html>
-
 <html class="no-js" lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="/favicon.ico">
 
-    <link rel="stylesheet" href="DG_MessageBox.css">
+    <link rel="stylesheet" href="DG_MessageBox2.css">
 
     <style>
         
     </style>
-
-    <!-- DG 팝업 라이브러리 -->
-    <script src="../../DG_Popup2/DG_Popup2.js"></script>
-    <script src="DG_MessageBox2.js"></script>
 </head>
 
 <body style="width: 3000px;">
@@ -47,64 +41,15 @@
         이것은 테스트입니다!
     </textarea>
     <div>
-        <button onclick="ShowMgr()">Message Box Show!</button>
+        <button onclick="app.ShowMgr()">Message Box Show!</button>
     </div>
 
     <br />
     <br />
 
-    <script>
-        // DG_MessageBox.Initialize();
-
-        // var nCount = 0;
-
-        // function ShowMgr()
-        // {
-        //     ++nCount;
-
-        //     var sMsg = "<pre>" + $("#txtMsg").val() + "</pre>"
-        //         + "<br /> count : " + nCount;
-
-        //     DG_MessageBox.Show({
-        //         Title: "테스트 메시지 박스 " + nCount,
-        //         Content: sMsg,
-
-		// 		ContentCss: "asdfasdfasd",
-
-        //         ButtonShowType: Number($("#selectButtonShowType").val()),
-        //         BigIconType: Number($("#selectBigIconType").val()),
-        //         ButtonEvent: function (btnType)
-        //         {
-        //             console.log("button : " + btnType);
-        //             DG_Popup.Close();
-
-        //             var TestContentsHtml = ' \
-        //                 <div class="divTitle DG_PopupTitle">버튼 결과! </div> \
-        //                 <div class="divContents"> \
-        //                     결과 :'+ btnType + ' <br />\
-        //                     <br />\
-        //                     <br />\
-        //                     <button onclick="DG_Popup.CloseAll()">All Close</button>\
-        //                     <br />\
-        //                     <button onclick="DG_Popup.Close()">Close</button>\
-        //                 </div>';
-
-        //             DG_Popup.Show({
-        //                 Content: TestContentsHtml,
-        //                 ContentCss: "DG_PopupContentCssAdd",
-
-        //                 top: 200,
-        //                 left: 200,
-
-        //                 OverlayClick: function (nPopupIndex, divPopupParent)
-        //                 {
-        //                     console.log(nPopupIndex + ", " + divPopupParent);
-        //                     DG_Popup.CloseTarget(divPopupParent);
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
+    <script type="module">
+        import StartUp from '../dist/DG_MessageBox2/src/app.js';
+        window.app = new StartUp();
     </script>
 
 </body>

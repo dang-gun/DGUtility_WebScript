@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc ./src/DG_MessageBox2.ts"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
