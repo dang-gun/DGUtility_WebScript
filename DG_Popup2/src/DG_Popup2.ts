@@ -1,5 +1,4 @@
-import { MessageBoxShowDefaultOption } from './../../DG_MessageBox2/src/DG_MessageBox2';
-import { JsonShowDefaultOption } from "./DG_Popup2.type";
+import { JsonShowDefaultOption } from "./JsonShowDefaultOption";
 
 /**
  * Multiple analog
@@ -107,7 +106,7 @@ export default class DG_Popup2
     /**
      * DG_Popup2를 사용하여 팝업을 생성한다.
      */
-    public Show(jsonOption: JsonShowDefaultOption | MessageBoxShowDefaultOption): HTMLDivElement
+    public Show(jsonOption: JsonShowDefaultOption): HTMLDivElement
     {
         const jsonShowDefaultOption = this.ShowDefaultOption;
 
