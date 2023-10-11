@@ -80,7 +80,6 @@ export default class DG_Pagination
         this.PageItem_Now = this.PaginationButton_Create("");
         this.PageItem_Now.Li.classList.add("dg-page-now");
         this.PageItem_Now.Li.classList.add("dg-page-active");
-        this.PageItem_Now.Li.classList.add("dg-page-disabled");
         this.UlDom.appendChild(this.PageItem_Now.Li);
 
         //뒤쪽 번호
