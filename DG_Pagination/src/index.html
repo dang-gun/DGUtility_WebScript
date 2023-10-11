@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Cache-control" content="no-cache">
+	<title>typescript Enum Test</title>
+
+	<style>
+        .dg-page {
+            border: solid;
+        }
+            .dg-page > .dg-page-nav {
+                list-style: none;
+                display: inline-block;
+            }
+
+                .dg-page > .dg-page-nav > .dg-page-item {
+                    float: left;
+                    width: 2rem;
+                    height: 2rem;
+                    margin: 10px 0;
+                    border: solid 1px #cdc9ff;
+                    font-size: 1.25rem;
+                    cursor: pointer;
+                    text-align: center;
+                    vertical-align: middle;
+                    border-radius: 0.25rem;
+                    margin: 0.25rem;
+                }
+
+                    .dg-page > .dg-page-nav > .dg-page-item > a {
+                        text-decoration-line: none;
+                        color: inherit;
+                    }
+
+
+                .dg-page > .dg-page-nav > .dg-page-now {
+                    font-size: 1.50rem;
+                    font-weight: 700;
+                    background-color: #c8d8ff;
+                }
+
+                .dg-page > .dg-page-nav > .dg-page-hidden {
+                    visibility: collapse;
+                }
+	</style>
+
+</head>
+<body>
+    <h2>환영!</h2>
+    'typescript Enum Test'에 오신걸 환영합니다.<br />
+    <br />
+
+    Total page count : <input type="text" id="txtTotalPageCount" value="10" /><br />
+    page Now : <input type="text" id="txtPageNow" value="1" /><br />
+    <button id="btnApply">
+        적용
+    </button>
+
+    <div id="divTest">
+
+    </div>
+</body>
+</html>
