@@ -309,7 +309,9 @@ export default class DGU_Pagination
             item.Button.href = this.Option.VoidHref;
             for (let i = 0; i < this.Option.VoidHref_AttrAdd.length; ++i)
             {
-                item.Button.setAttribute(this.Option.VoidHref_AttrAdd[i], "");
+                item.Button.setAttribute(
+                    this.Option.VoidHref_AttrAdd[i][0]
+                    , this.Option.VoidHref_AttrAdd[i][1]);
             }       
         }
         else
@@ -317,7 +319,8 @@ export default class DGU_Pagination
             item.Button.href = this.Option.MoveUrlCreateFunc(nPageNumber);
             for (let i = 0; i < this.Option.VoidHref_AttrAdd.length; ++i)
             {
-                item.Button.removeAttribute(this.Option.VoidHref_AttrAdd[i]);
+                item.Button.removeAttribute(
+                    this.Option.VoidHref_AttrAdd[i][0]);
             }
         }
     }
@@ -359,5 +362,5 @@ export class DGU_Pagination_OptionModel
      * 링크 동작이 없는 경우 특정 속성을 추가해야 한다면 이 리스트에 넣어둔다.
      * 링크에 동작이 있으면 자동으로 해당 속성을 빼준다.
      */
-    VoidHref_AttrAdd: string[] = [];
+    VoidHref_AttrAdd: string[][] = [];
 }

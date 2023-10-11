@@ -38,8 +38,8 @@ export default class StartUp
 			return "#?pn=" + nPageNumber;
 		};
 
-		option.VoidHref_AttrAdd.push("VoidHrefTest");
-		option.VoidHref_AttrAdd.push("VoidHrefTest2");
+		option.VoidHref_AttrAdd.push(["VoidHrefTest", "true"]);
+		option.VoidHref_AttrAdd.push(["VoidHrefTest2", ""]);
 
 
 		this.dgPagination = new DGU_Pagination(option);
