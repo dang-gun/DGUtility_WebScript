@@ -24,13 +24,6 @@ export default class StartUp
 			let txtPageNow: HTMLInputElement
 				= document.getElementById("txtPageNow") as HTMLInputElement;
 
-			//this.divTest.innerHTML = "";
-			//this.divTest.appendChild(
-			//	this.dgPagination.ToHtml(
-			//		Number(txtPageNow.value)
-			//		, Number(txtTotalPageCount.value)
-			//		, "?"));
-
 			this.dgPagination.Rebind(
 				Number(txtPageNow.value)
 				, Number(txtTotalPageCount.value));
@@ -52,7 +45,6 @@ export default class StartUp
 		this.divTest.classList.add("dg-page");
 
 		this.divTest.innerHTML = "";
-		//this.divTest.appendChild(this.dgPagination.ToHtml(2, 10, "?"));
 		this.divTest.appendChild(this.dgPagination.UlDom);
 		this.dgPagination.Rebind(2, 10);
 	}
