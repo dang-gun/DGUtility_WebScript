@@ -1,6 +1,6 @@
 ﻿
 
-import DG_Pagination, { DG_Pagination_OptionModel } from "./DG_Pagination";
+import DGU_Pagination, { DG_Pagination_OptionModel } from "./DG_Pagination";
 
 
 export default class StartUp
@@ -8,7 +8,7 @@ export default class StartUp
 	//테스트 div
 	divTest: HTMLDivElement = null;
 
-	dgPagination: DG_Pagination = null;
+	dgPagination: DGU_Pagination = null;
 
 
 
@@ -38,7 +38,7 @@ export default class StartUp
 				return "#?pn=" + nPageNumber;
 			}
 		}
-		this.dgPagination = new DG_Pagination(option);
+		this.dgPagination = new DGU_Pagination(option);
 
 		//테스트 div 찾기
 		this.divTest = document.getElementById("divTest") as HTMLDivElement;

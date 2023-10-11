@@ -1,7 +1,7 @@
 {
-  "name": "axe-view",
+  "name": "dgu-pagination-test",
   "version": "0.0.0",
-  "description": "AxeView",
+  "description": "DangGun Utility typest typescript Pagination Test",
   "main": "server.js",
   "author": {
     "name": ""

@@ -1,6 +1,9 @@
 
-
-export default class DG_Pagination
+/**
+ * DangGun Utility Pagination
+ * 페이지네이션 UI를 구현해주는 유틸
+ */
+export default class DGU_Pagination
 {
     /** 사용할 url 쿼리 - 페이지 번호 */
     public UrlQuery_PageNowNumber: string = "pn";
