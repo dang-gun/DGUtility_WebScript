@@ -35,7 +35,7 @@ export interface JsonShowDefaultOption
      * 팝업 안에 표시할 컨텐츠
      * 오브젝트도 가능하다.
      */
-    Content?: string,
+    Content?: string | DocumentFragment | HTMLElement,
 
     /** 컨탠츠에 적용할 css */
     ContentCss?: string,
