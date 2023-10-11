@@ -1,7 +1,4 @@
-﻿# Javascript Arrow Function Test
+﻿# DangGun Utility typescript Pagination
 
-[TypeScript] 타입스크립트에서 열거형(enum)은 계륵인가?
-https://blog.danggun.net/10638
-
-에서 사용된 셈플입니다.
+페이지네이션 UI를 구현해주는 유틸
 
