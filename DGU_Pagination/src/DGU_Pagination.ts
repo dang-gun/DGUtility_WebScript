@@ -9,7 +9,7 @@ export default class DGU_Pagination
     public UrlQuery_PageNowNumber: string = "pn";
 
     /** 생성시 사용한 옵션 개체*/
-    public Option: DG_Pagination_OptionModel;
+    public Option: DGU_Pagination_OptionModel;
 
 
     /** 전체를 감싸고 있는 ul 개체*/
@@ -17,27 +17,27 @@ export default class DGU_Pagination
 
     //#region
     /** 아이템 개체 - 맨 앞*/
-    private PageItem_First: DG_Pagination_ItemModel;
+    private PageItem_First: DGU_Pagination_ItemModel;
     /** 아이템 개체 - 한칸 앞*/
-    private PageItem_Before: DG_Pagination_ItemModel;
+    private PageItem_Before: DGU_Pagination_ItemModel;
 
     /** 아이템 개체 - 앞쪽 번호*/
-    private PageItem_BeforeList: DG_Pagination_ItemModel[] = [];
+    private PageItem_BeforeList: DGU_Pagination_ItemModel[] = [];
 
     /** 아이템 개체 - 지금 페이지*/
-    private PageItem_Now: DG_Pagination_ItemModel;
+    private PageItem_Now: DGU_Pagination_ItemModel;
 
     /** 아이템 개체 - 뒤쪽 번호*/
-    private PageItem_AfterList: DG_Pagination_ItemModel[] = [];
+    private PageItem_AfterList: DGU_Pagination_ItemModel[] = [];
 
     /** 아이템 개체 - 한칸 뒤*/
-    private PageItem_After: DG_Pagination_ItemModel;
+    private PageItem_After: DGU_Pagination_ItemModel;
     /** 아이템 개체 - 맨 뒤*/
-    private PageItem_Last: DG_Pagination_ItemModel;
+    private PageItem_Last: DGU_Pagination_ItemModel;
     
     //endregion
 
-    constructor(option: DG_Pagination_OptionModel)
+    constructor(option: DGU_Pagination_OptionModel)
     {
         this.Option = option;
         this.Reset(this.Option);
@@ -47,7 +47,7 @@ export default class DGU_Pagination
      * 가지고있는 UI개체를 초기화한다.
      * @param option 초기화 할때 사용할 옵션 정보
      */
-    private Reset = (option: DG_Pagination_OptionModel) =>
+    private Reset = (option: DGU_Pagination_OptionModel) =>
     {
         this.UlDom = document.createElement("ul");
         this.UlDom.classList.add("dg-page-nav");
@@ -71,7 +71,7 @@ export default class DGU_Pagination
         for (let nBefore = 0; nBefore < option.PageButtonAddCount; ++nBefore)
         {
             //버튼 생성
-            let item: DG_Pagination_ItemModel = this.PaginationButton_Create("");
+            let item: DGU_Pagination_ItemModel = this.PaginationButton_Create("");
             item.Li.classList.add("dg-page-before-item");
             //배열에 백업
             this.PageItem_BeforeList.push(item);
@@ -89,7 +89,7 @@ export default class DGU_Pagination
         for (let nAfter = 0; nAfter < option.PageButtonAddCount; ++nAfter)
         {
             //버튼 생성
-            let item: DG_Pagination_ItemModel = this.PaginationButton_Create("");
+            let item: DGU_Pagination_ItemModel = this.PaginationButton_Create("");
             item.Li.classList.add("dg-page-after-item");
             //배열에 백업
             this.PageItem_AfterList.push(item);
@@ -164,7 +164,7 @@ export default class DGU_Pagination
         //지금 페이지 앞번호********************
         for (let nBefore = 0; nBefore < this.Option.PageButtonAddCount; ++nBefore)
         {
-            let item: DG_Pagination_ItemModel
+            let item: DGU_Pagination_ItemModel
                 = this.PageItem_BeforeList[nBefore];
 
             //이 아이템의 번호
@@ -195,7 +195,7 @@ export default class DGU_Pagination
         //지금 페이지 뒷번호********************
         for (let nAfter = 0; nAfter < this.Option.PageButtonAddCount; ++nAfter)
         {
-            let item: DG_Pagination_ItemModel
+            let item: DGU_Pagination_ItemModel
                 = this.PageItem_AfterList[nAfter];
 
             //이 아이템의 번호
@@ -262,10 +262,10 @@ export default class DGU_Pagination
      */
     private PaginationButton_Create(
         sText: string)
-        : DG_Pagination_ItemModel
+        : DGU_Pagination_ItemModel
     {
-        let pitemReturn: DG_Pagination_ItemModel
-            = new DG_Pagination_ItemModel();
+        let pitemReturn: DGU_Pagination_ItemModel
+            = new DGU_Pagination_ItemModel();
 
 
         //감싸는 li
@@ -291,7 +291,7 @@ export default class DGU_Pagination
      * null이면  href는 javascript:void(0);가 들어간다.
      */
     private PaginationButton_Rebind = (
-        item: DG_Pagination_ItemModel
+        item: DGU_Pagination_ItemModel
         , sText?:string
         , nPageNumber?: number) =>
     {
@@ -306,18 +306,26 @@ export default class DGU_Pagination
         if (null === nPageNumber)
         {
             
-            item.Button.href = "javascript:void(0);";
+            item.Button.href = this.Option.VoidHref;
+            for (let i = 0; i < this.Option.VoidHref_AttrAdd.length; ++i)
+            {
+                item.Button.setAttribute(this.Option.VoidHref_AttrAdd[i], "");
+            }       
         }
         else
         {
             item.Button.href = this.Option.MoveUrlCreateFunc(nPageNumber);
+            for (let i = 0; i < this.Option.VoidHref_AttrAdd.length; ++i)
+            {
+                item.Button.removeAttribute(this.Option.VoidHref_AttrAdd[i]);
+            }
         }
     }
 }
 
 
 /** 아이템 한개에 대한 개체*/
-class DG_Pagination_ItemModel
+class DGU_Pagination_ItemModel
 {
     /** 아이템 한개를 감싸는 Li*/
     Li: HTMLLIElement;
@@ -327,7 +335,7 @@ class DG_Pagination_ItemModel
 }
 
 /** DG 페이지네이션 생성 옵션*/
-export class DG_Pagination_OptionModel
+export class DGU_Pagination_OptionModel
 {
     /** 
      * 현재 페이지를 기준으로 앞뒤로 몇개의 페이지 버튼이 추가될지 개수이다.
@@ -342,4 +350,14 @@ export class DG_Pagination_OptionModel
      * @returns 완성된 url
      */
     MoveUrlCreateFunc: Function = (nPageNumber: number): string => { return ""; }
+
+    /** 링크 동작이 없는 경우 사용할 a.href 값*/
+    VoidHref: string = "javascript:void(0);";
+
+    /** 
+     * 링크 동작이 없는 경우 추가할 속성
+     * 링크 동작이 없는 경우 특정 속성을 추가해야 한다면 이 리스트에 넣어둔다.
+     * 링크에 동작이 있으면 자동으로 해당 속성을 빼준다.
+     */
+    VoidHref_AttrAdd: string[] = [];
 }

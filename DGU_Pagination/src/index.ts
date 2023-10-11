@@ -1,6 +1,6 @@
 ﻿
 
-import DGU_Pagination, { DG_Pagination_OptionModel } from "./DG_Pagination";
+import DGU_Pagination, { DGU_Pagination_OptionModel } from "./DGU_Pagination";
 
 
 export default class StartUp
@@ -31,13 +31,17 @@ export default class StartUp
 
 
 		//전달할 옵션
-		let option: DG_Pagination_OptionModel = {
-			PageButtonAddCount: 3
-			, MoveUrlCreateFunc: (nPageNumber: number) =>
-			{
-				return "#?pn=" + nPageNumber;
-			}
-		}
+		let option: DGU_Pagination_OptionModel = new DGU_Pagination_OptionModel();
+		option.PageButtonAddCount = 3;
+		option.MoveUrlCreateFunc = (nPageNumber: number) =>
+		{
+			return "#?pn=" + nPageNumber;
+		};
+
+		option.VoidHref_AttrAdd.push("VoidHrefTest");
+		option.VoidHref_AttrAdd.push("VoidHrefTest2");
+
+
 		this.dgPagination = new DGU_Pagination(option);
 
 		//테스트 div 찾기
