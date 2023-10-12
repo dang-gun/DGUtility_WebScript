@@ -218,14 +218,14 @@ export default class DGU_Pagination
 
         //뒤로 ******
         nTemp = nPageNow + 1;
-        if (nTotalPageCount <= nTemp)
+        if (nTotalPageCount < nTemp)
         {//최대 페이지가 넘었다.
 
             //최대 페이지로 설정
             nTemp = nTotalPageCount;
         }
 
-        if (nTotalPageCount <= nTemp)
+        if (nTotalPageCount < nTemp)
         {//맨 뒷페이지다.
 
             //더이상 갈때가 없다.
