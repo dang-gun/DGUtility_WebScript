@@ -225,7 +225,7 @@ export default class DGU_Pagination
             nTemp = nTotalPageCount;
         }
 
-        if (nTotalPageCount < nTemp)
+        if (nTotalPageCount <= nTemp)
         {//맨 뒷페이지다.
 
             //더이상 갈때가 없다.
