@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development --hot",
-    "build": "webpack --progress --profile",
+    "build": "webpack --config webpack.prod.js",
     "jsdoc": "jsdoc -c jsdoc.conf README.md",
-    "dev": "webpack serve --env development",
+    "dev": "webpack --config webpack.dev.js serve --env development",
     "prod": "webpack --progress --profile --mode production"
   },
   "devDependencies": {
