@@ -15,7 +15,7 @@ export * from "./AjaxCallOptionCheckCompleteDataModel";
 export class AjaxCallOptionModel
 {
 	/** 
-	 * await 사용여부
+	 * 동기(await) 사용여부
 	 * 기본값 : false
 	 */
 	await?: boolean = false;

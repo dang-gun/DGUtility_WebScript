@@ -1,9 +1,9 @@
-﻿import DGU_AjaxAssist2_NoAuth, { AjaxCallContentGetType } from "./DGU_AjaxAssist2/DGU_AjaxAssist2_NoAuth";
+﻿import DGU_AjaxAssist2, { AjaxCallContentGetType } from "./DGU_AjaxAssist2/DGU_AjaxAssist2";
 
 export default class App
 {
 	/**  아작스 지원2(인증없는 버전) 개체 */
-	private AA: DGU_AjaxAssist2_NoAuth = new DGU_AjaxAssist2_NoAuth();
+	private AA: DGU_AjaxAssist2 = new DGU_AjaxAssist2();
 
 	/** GET 테스트 버튼 */
 	private btnGetTest: HTMLButtonElement;
@@ -19,7 +19,7 @@ export default class App
 		{
 			console.log("------- GET await (json) ------");
 			let jsonData: JSON =
-				await this.AA.Call({
+				await this.AA.CallAwait({
 					method: "GET",
 					url: "/api/keywords",
 				});

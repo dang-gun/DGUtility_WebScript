@@ -6,8 +6,12 @@ export * from "./ModelData/AjaxCallOptionModel";
 
 /**
  * 아작스 지원2(인증없는 버전)
+ * 헤더이 인증용 토큰을 담지 않는 버전.
+ * 쿠키와 같은 다른 수단으로 인증할때 사용한다.
+ * 
+ * 헤더에 인증용 토큰을 담고 자동으로 엑세스토큰과 리플레시토큰을 처리하려면 DGU_AjaxAssist2_Auth를 사용해야 한다.
  */
-export default class DGU_AjaxAssist2_NoAuth
+export default class DGU_AjaxAssist2
 {
 	/** 아작스 호출시 기본값으로 사용할 옵션 */
 	public CallOptionDefult: AjaxCallOptionModel;
@@ -56,12 +60,124 @@ export default class DGU_AjaxAssist2_NoAuth
 				error: null,
 			}
 		}
-		
+	}
+
+	//#region ajax 호출 : 메서드 지정
+
+	/**
+	 * ajax get 요청
+	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	 * @param callOption
+	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 */
+	public get = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		//메서드 타입 강제 지정
+		callOption.method = AjaxCallMethodType.Get;
+
+		if (true === callOption.await)
+		{//동기
+			return await this.CallAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.CallAsync(callOption);
+		}
 	}
 
 	/**
+	 * ajax post 요청
+	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	 * @param callOption
+	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 */
+	public post = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		//메서드 타입 강제 지정
+		callOption.method = AjaxCallMethodType.Post;
+
+		if (true === callOption.await)
+		{//동기
+			return await this.CallAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.CallAsync(callOption);
+		}
+	}
+
+	/**
+	 * ajax put 요청
+	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	 * @param callOption
+	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 */
+	public put = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		//메서드 타입 강제 지정
+		callOption.method = AjaxCallMethodType.Put;
+
+		if (true === callOption.await)
+		{//동기
+			return await this.CallAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.CallAsync(callOption);
+		}
+	}
+
+	/**
+	 * ajax patch 요청
+	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	 * @param callOption
+	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 */
+	public patch = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		//메서드 타입 강제 지정
+		callOption.method = AjaxCallMethodType.Patch;
+
+		if (true === callOption.await)
+		{//동기
+			return await this.CallAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.CallAsync(callOption);
+		}
+	}
+
+	/**
+	* ajax delete 요청
+	* 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	* @param callOption
+	* @returns callOption.contentGetType에 맞춰 변환된 data.
+	*/
+	public delete = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		//메서드 타입 강제 지정
+		callOption.method = AjaxCallMethodType.Delete;
+
+		if (true === callOption.await)
+		{//동기
+			return await this.CallAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.CallAsync(callOption);
+		}
+	}
+	//#endregion
+
+	/**
 	 * ajax 호출(동기)
-	 * 반듯이 await로 호출해야 합니다.
+	 * 반듯이 await로 호출해야 한다.
 	 * ajax가 응답할때까지 기다렸다가 callOption.contentGetType 설정된 결과값으로 리턴한다.
 	 * 
 	 * callOption.success, callOption.error가 있다면 우선 호출된다.
@@ -69,7 +185,7 @@ export default class DGU_AjaxAssist2_NoAuth
 	 * @returns callOption.contentGetType에 맞춰 변환된 data.
 	 * 에러가 발생한경우 무조건 Response를 리턴한다.
 	 */
-	public Call = async (callOption: AjaxCallOptionModel)
+	public CallAwait = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
 	{
 		//강제 설정 변경
