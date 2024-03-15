@@ -5,7 +5,7 @@
  * */
 export const enum AjaxCallContentGetType
 {
-	/** (기본값)Text, Html 등등 텍스트 처리가 가능한 데이터 */
+	/** (기본값)Text, String, HTML 등등 텍스트 처리가 가능한 데이터 */
 	Text = 0,
 	/** 전달된 리스폰스를 그대로 전달한다. */
 	Response = 1,

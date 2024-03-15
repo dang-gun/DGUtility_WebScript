@@ -18,14 +18,14 @@ export class AjaxCallOptionModel
 	 * await 사용여부
 	 * 기본값 : false
 	 */
-	await: boolean = false;
+	await?: boolean = false;
 
 	/** 
 	 * 컨탠츠 받기 타입. 
 	 * 기본값 : Json
 	 * 
 	 * 컨탠츠를 리턴받을때 어떤 타입으로 처리해서 받을지를 설정한다.*/
-	contentGetType: AjaxCallContentGetType = AjaxCallContentGetType.Json;
+	contentGetType?: AjaxCallContentGetType = AjaxCallContentGetType.Json;
 
 	/** 아작스 요청 메서드 타입
 	 * 기본값 get 
@@ -78,13 +78,21 @@ export class AjaxCallOptionModel
 
 	/**
 	 * 아작스 요청이 성공했을 때 호출될 함수
+	 * 
+	 * Promise패턴을 사용할때는 명시적으로 null로 선언해야 한다.
+	 * 이 함수가 선언되어 있으면 내부에서 데이터 스크림을 먼저 읽으므로 
+	 * Response에 스크림이 비어있는 상태로 전달되어 에러가 발생한다.
+	 * 
 	 * @param data 성공해서 받은 데이터를 ContentGetType에 맞게 가공한 데이터
 	 * @param response 요청이 전달한 리스폰스
 	 */
-	success = (data: object, response: Response): void => { };
+	success?: (data: null | Response | ArrayBuffer | string | any, response: Response) => void = null;
 	/**
 	 *  아작스 요청이 실패했을 때 호출될 함수
+	 * 
+	 * 함수원형
+	 * (response: Response): void => { };
 	 * @param response 요청이 전달한 리스폰스
 	 */
-	error = (response: Response): void => { };
+	error?: (response: Response) => void = null;
 }

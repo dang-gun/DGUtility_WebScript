@@ -52,24 +52,20 @@ export default class DGU_AjaxAssist2_NoAuth
 				data: null,
 				body: null,
 
-				success: function (data: object, response: Response) { },
-				error: function (response: Response) { },
+				success: null,
+				error: null,
 			}
 		}
-
-		//메뉴 추가
-		let divMain = document.getElementById("divMain");
-		divMain.innerHTML = "Test";
-
 		
 	}
 
 	/**
 	 * ajax 호출(동기)
+	 * 반듯이 await로 호출해야 합니다.
 	 * ajax가 응답할때까지 기다렸다가 callOption.contentGetType 설정된 결과값으로 리턴한다.
 	 * 
 	 * callOption.success, callOption.error가 있다면 우선 호출된다.
-	 * @param callOption
+	 * @param callOption 아작스 호출옵션(비어있는 옵션은 기본옵션이 사용된다.)
 	 * @returns callOption.contentGetType에 맞춰 변환된 data.
 	 * 에러가 발생한경우 무조건 Response를 리턴한다.
 	 */
@@ -89,7 +85,7 @@ export default class DGU_AjaxAssist2_NoAuth
 		//아작스 호출
 		await fetch(jsonCallOptionComplete.urlTarget
 					, jsonCallOptionComplete.completeFetch)
-			.then((response) =>
+			.then((response: Response) =>
 			{
 				//응답데이터를 설정에 맞게 변환한다.
 				returnData
@@ -97,19 +93,33 @@ export default class DGU_AjaxAssist2_NoAuth
 						response
 						, jsonCallOptionComplete.callOption.contentGetType);
 
-				jsonCallOptionComplete.callOption.success(returnData, response);
-			})
-			.catch((response) =>
+				if (jsonCallOptionComplete.callOption.success)
+				{//함수가 있으면 호출
+					jsonCallOptionComplete.callOption.success(returnData, response);
+				}
+			}).catch((response: Response) =>
 			{
 				returnData = response;
-				jsonCallOptionComplete.callOption.error(response);
+				if (jsonCallOptionComplete.callOption.error)
+				{//함수가 있으면 호출
+					jsonCallOptionComplete.callOption.error(response);
+				}
 			});
 
 		return returnData;
 	}
 
+	/**
+	 * ajax 호출(비동기)
+	 * ajax가 응답을 기다리지 않는다.
+	 * 결과를 callOption.success, callOption.error로 전달받거나 
+	 * Promise패턴을 사용하여 받으면 된다.
+	 * 
+	 * @param callOption 아작스 호출옵션(비어있는 옵션은 기본옵션이 사용된다.)
+	 * @returns 사용된 Promise개체
+	 */
 	public CallAsync = (callOption: AjaxCallOptionModel)
-		: Promise<Response>   =>
+		: Promise<Response> =>
 	{
 		callOption.await = false;
 
@@ -117,10 +127,36 @@ export default class DGU_AjaxAssist2_NoAuth
 			= this.CallOptionCheck(callOption);
 		
 		//완성된 리스폰스
-		let responseAjaxResult: Promise<Response> = null;
+		let returnRespAjaxResult: Promise<Response> = null;
 		
+		returnRespAjaxResult
+			= fetch(jsonCallOptionComplete.urlTarget
+				, jsonCallOptionComplete.completeFetch
+			).then((response: Response) =>
+			{
+				if (jsonCallOptionComplete.callOption.success)
+				{
+					//전달용 데이터
+					let returnData: null | Response | ArrayBuffer | string | any = null;
 
-		return responseAjaxResult;
+					//응답데이터를 설정에 맞게 변환한다.
+					returnData
+						= this.ResponseToData(
+							response
+							, jsonCallOptionComplete.callOption.contentGetType);
+
+					jsonCallOptionComplete.callOption.success(returnData, response);
+				}
+				
+
+				return response;
+			}).catch((response: Response) =>
+			{
+				jsonCallOptionComplete.callOption.error(response);
+				return response;
+			});
+
+		return returnRespAjaxResult;
 
 	}//end Call
 
@@ -240,6 +276,13 @@ export default class DGU_AjaxAssist2_NoAuth
 		return urlSearchParams;
 	}
 
+	/**
+	 * 리스폰스 데이터를 옵션에 맞게 변환하여 리턴한다.
+	 * 
+	 * @param response
+	 * @param typeContentGet
+	 * @returns
+	 */
 	private ResponseToData(
 		response: Response
 		, typeContentGet: AjaxCallContentGetType)
@@ -257,6 +300,7 @@ export default class DGU_AjaxAssist2_NoAuth
 					break;
 				case AjaxCallContentGetType.Json:
 					objReturn = response.json();
+					let aaa: JSON = objReturn as JSON;
 					break;
 				case AjaxCallContentGetType.Binary:
 					objReturn = response.arrayBuffer();
