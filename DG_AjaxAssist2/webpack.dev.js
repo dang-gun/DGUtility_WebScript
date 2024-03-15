@@ -12,7 +12,7 @@ const RootPath = path.resolve(__dirname);
 const SrcPath = path.resolve(RootPath, "src");
 
 //웹서버가 사용하는 폴더 이름
-const WwwRoot = "build";
+const WwwRoot = "dist";
 //웹서버가 사용하는 폴더 위치
 const WwwRootPath = path.resolve(__dirname, WwwRoot);
 
@@ -36,6 +36,18 @@ module.exports = merge(common, {
         path: OutputPath,
         /** 웹팩 빌드 후 최종적으로 만들어질 파일 */
         filename: "app.js"
+    },
+
+    module: {
+        // 모듈 규칙
+        rules: [
+            // TypeScript 로더 설정
+            {
+                test: /\.ts?$/i,
+                exclude: /node_modules/,
+                use: ['ts-loader']
+            }
+        ]
     },
 
     plugins: [

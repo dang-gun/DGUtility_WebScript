@@ -28,15 +28,4 @@ module.exports =
     resolve: {
         extensions: [".js", ".ts"]
     },
-    module: {
-        // 모듈 규칙
-        rules: [
-            // TypeScript 로더 설정
-            {
-                test: /\.ts?$/i,
-                exclude: /node_modules/,
-                use: ['ts-loader']
-            }
-        ]
-    },
 };

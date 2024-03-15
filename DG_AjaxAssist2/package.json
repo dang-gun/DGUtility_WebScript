@@ -1,15 +1,16 @@
 {
-  "name": "standalonetypescript_webpack",
+  "name": "DGU_AjaxAssist2",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development --hot",
     "build": "webpack --config webpack.prod.js",
     "jsdoc": "jsdoc -c jsdoc.conf README.md",
-    "dev": "webpack --config webpack.dev.js serve --env development",
+    "dev": "webpack serve --env development --config webpack.dev.js ",
     "prod": "webpack --progress --profile --mode production"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "^14.14.7",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
@@ -21,9 +22,9 @@
     "jsdoc": "^4.0.2",
     "ts-loader": "^9.4.2",
     "typescript": "5.1.6",
-    "webpack": "5.90.3",
-    "webpack-cli": "5.1.4",
-    "webpack-dev-server": "5.0.3"
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.3"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -35,4 +36,5 @@
       "@typescript-eslint"
     ]
   }
+  
 }

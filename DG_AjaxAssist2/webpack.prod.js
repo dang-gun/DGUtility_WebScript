@@ -12,7 +12,7 @@ const RootPath = path.resolve(__dirname);
 const SrcPath = path.resolve(RootPath, "src");
 
 //웹서버가 사용하는 폴더 이름
-const WwwRoot = "build";
+const WwwRoot = "dist";
 //웹서버가 사용하는 폴더 위치
 const WwwRootPath = path.resolve(__dirname, WwwRoot);
 
@@ -32,7 +32,7 @@ console.log(path.resolve(SrcPath, "DGU_AjaxAssist2"));
 module.exports = merge(common, {
     /** 서비스 모드 */
     mode: 'production',
-    entry: {// 빌드할 폴더 경로 지정
+    entry: {// 빌드할 경로 지정
         app: path.resolve(SrcPath,"DGU_AjaxAssist2", "DGU_AjaxAssist2.ts"), 
     },
     output: {// 최종적으로 만들어질 js
@@ -41,4 +41,33 @@ module.exports = merge(common, {
         /** 웹팩 빌드 후 최종적으로 만들어질 파일 */
         filename: "DGU_AjaxAssist2.js"
     },
+    module: {
+        // 모듈 규칙
+        rules: [
+            // TypeScript 로더 설정
+            {
+                test: /\.ts?$/i,
+                exclude: /node_modules/,
+                use: ['ts-loader']
+            }
+        ]
+    },
+
+    //module: {
+    //    rules: [
+    //        {
+    //            test: /\.ts?$/,
+    //            exclude: /node_modules/,
+    //            use: [
+    //                {
+    //                    loader: 'ts-loader',
+    //                    options: {
+    //                        configFile: './tsconfig.prod.json' // 여기에 원하는 파일 경로를 지정
+    //                    }
+    //                }
+    //            ]
+    //        }
+    //    ]
+    //},
+    
 });
