@@ -66,9 +66,10 @@ export default class DGU_AjaxAssist2
 
 	/**
 	 * ajax get 요청
-	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
-	 * @param callOption
-	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 * 동기호출을 할때는 반드시 await로 호출해야 한다.
+	 * @returns 옵션에 따른 리턴
+	 * 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	 * 비동기 : Promise<Response>
 	 */
 	public get = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
@@ -78,19 +79,20 @@ export default class DGU_AjaxAssist2
 
 		if (true === callOption.await)
 		{//동기
-			return await this.CallAwait(callOption);
+			return await this.callAwait(callOption);
 		}
 		else
 		{//비동기
-			return this.CallAsync(callOption);
+			return this.callAsync(callOption);
 		}
 	}
 
 	/**
 	 * ajax post 요청
-	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
-	 * @param callOption
-	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 * 동기호출을 할때는 반드시 await로 호출해야 한다.
+	 * @returns 옵션에 따른 리턴
+	 * 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	 * 비동기 : Promise<Response>
 	 */
 	public post = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
@@ -100,19 +102,20 @@ export default class DGU_AjaxAssist2
 
 		if (true === callOption.await)
 		{//동기
-			return await this.CallAwait(callOption);
+			return await this.callAwait(callOption);
 		}
 		else
 		{//비동기
-			return this.CallAsync(callOption);
+			return this.callAsync(callOption);
 		}
 	}
 
 	/**
 	 * ajax put 요청
-	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
-	 * @param callOption
-	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 * 동기호출을 할때는 반드시 await로 호출해야 한다.
+	 * @returns 옵션에 따른 리턴
+	 * 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	 * 비동기 : Promise<Response>
 	 */
 	public put = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
@@ -122,19 +125,21 @@ export default class DGU_AjaxAssist2
 
 		if (true === callOption.await)
 		{//동기
-			return await this.CallAwait(callOption);
+			return await this.callAwait(callOption);
 		}
 		else
 		{//비동기
-			return this.CallAsync(callOption);
+			return this.callAsync(callOption);
 		}
 	}
 
 	/**
 	 * ajax patch 요청
-	 * 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	 * 동기호출을 할때는 반드시 await로 호출해야 한다.
 	 * @param callOption
-	 * @returns callOption.contentGetType에 맞춰 변환된 data.
+	 * @returns 옵션에 따른 리턴
+	 * 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	 * 비동기 : Promise<Response>
 	 */
 	public patch = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
@@ -144,19 +149,21 @@ export default class DGU_AjaxAssist2
 
 		if (true === callOption.await)
 		{//동기
-			return await this.CallAwait(callOption);
+			return await this.callAwait(callOption);
 		}
 		else
 		{//비동기
-			return this.CallAsync(callOption);
+			return this.callAsync(callOption);
 		}
 	}
 
 	/**
 	* ajax delete 요청
-	* 동기호출을 할때는 받듯이 await로 호출해야 한다.
+	* 동기호출을 할때는 반드시 await로 호출해야 한다.
 	* @param callOption
-	* @returns callOption.contentGetType에 맞춰 변환된 data.
+	* @returns 옵션에 따른 리턴
+	* 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	* 비동기 : Promise<Response>
 	*/
 	public delete = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
@@ -166,18 +173,41 @@ export default class DGU_AjaxAssist2
 
 		if (true === callOption.await)
 		{//동기
-			return await this.CallAwait(callOption);
+			return await this.callAwait(callOption);
 		}
 		else
 		{//비동기
-			return this.CallAsync(callOption);
+			return this.callAsync(callOption);
 		}
 	}
 	//#endregion
 
 	/**
+	 * ajax call 요청
+	 * 동기호출을 할때는 반드시 await로 호출해야 한다.
+	 * 
+	 * callOption.await옵션에 따라 동기/비동기 호출을 한다.
+	 * @param callOption
+	 * @returns 옵션에 따른 리턴
+	 * 동기 : callOption.contentGetType에 맞춰 변환된 data.
+	 * 비동기 : Promise<Response>
+	 */
+	public call = async (callOption: AjaxCallOptionModel)
+		: Promise<null | Response | ArrayBuffer | string | any> =>
+	{
+		if (true === callOption.await)
+		{//동기
+			return await this.callAwait(callOption);
+		}
+		else
+		{//비동기
+			return this.callAsync(callOption);
+		}
+	}
+
+	/**
 	 * ajax 호출(동기)
-	 * 반듯이 await로 호출해야 한다.
+	 * 반드시 await로 호출해야 한다.
 	 * ajax가 응답할때까지 기다렸다가 callOption.contentGetType 설정된 결과값으로 리턴한다.
 	 * 
 	 * callOption.success, callOption.error가 있다면 우선 호출된다.
@@ -185,7 +215,7 @@ export default class DGU_AjaxAssist2
 	 * @returns callOption.contentGetType에 맞춰 변환된 data.
 	 * 에러가 발생한경우 무조건 Response를 리턴한다.
 	 */
-	public CallAwait = async (callOption: AjaxCallOptionModel)
+	public callAwait = async (callOption: AjaxCallOptionModel)
 		: Promise<null | Response | ArrayBuffer | string | any> =>
 	{
 		//강제 설정 변경
@@ -234,7 +264,7 @@ export default class DGU_AjaxAssist2
 	 * @param callOption 아작스 호출옵션(비어있는 옵션은 기본옵션이 사용된다.)
 	 * @returns 사용된 Promise개체
 	 */
-	public CallAsync = (callOption: AjaxCallOptionModel)
+	public callAsync = (callOption: AjaxCallOptionModel)
 		: Promise<Response> =>
 	{
 		callOption.await = false;

@@ -19,7 +19,7 @@ export default class App
 		{
 			console.log("------- GET await (json) ------");
 			let jsonData: JSON =
-				await this.AA.CallAwait({
+				await this.AA.callAwait({
 					method: "GET",
 					url: "/api/keywords",
 				});
@@ -48,7 +48,7 @@ export default class App
 		{
 
 			console.log("------- GET callback (json) : call ------");
-			this.AA.CallAsync({
+			this.AA.callAsync({
 				method: "GET",
 				url: "/api/keywords",
 				success: (data: JSON, response: Response) =>
@@ -73,7 +73,7 @@ export default class App
 		btnGetTest2_2.onclick = async () =>
 		{
 			console.log("------- GET Promise (json) : call ------");
-			this.AA.CallAsync({
+			this.AA.callAsync({
 				method: "GET",
 				url: "/api/keywords",
 				success: null,
