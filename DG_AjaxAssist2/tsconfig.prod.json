@@ -8,7 +8,8 @@
     "declaration": true
   },
   "files": [
-    "./src/DGU_AjaxAssist2/DGU_AjaxAssist2.ts" // 필요한 파일 경로를 추가하세요.
+    //빌드에 사용할 파일
+    "./src/DGU_AjaxAssist2/DGU_AjaxAssist2.ts"
   ],
   "exclude": [
     "node_modules"
