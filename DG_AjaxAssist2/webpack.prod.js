@@ -26,8 +26,9 @@ let OutputPath = path.resolve(WwwRootPath, OutputFolder);
 //결과물 출력 위치 - 상대 주소
 let OutputPath_relative = path.resolve("/", OutputFolder);
 
-
-console.log(path.resolve(SrcPath, "DGU_AjaxAssist2"));
+//tsconfig위치
+let tsconfig = path.resolve(RootPath, "tsconfig.prod.json");
+console.log("tsconfig.prod.json => " + tsconfig);
 
 module.exports = merge(common, {
     /** 서비스 모드 */
@@ -42,32 +43,20 @@ module.exports = merge(common, {
         filename: "DGU_AjaxAssist2.js"
     },
     module: {
-        // 모듈 규칙
         rules: [
-            // TypeScript 로더 설정
             {
-                test: /\.ts?$/i,
-                exclude: /node_modules/,
-                use: ['ts-loader']
+                test: /\.ts?$/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        exclude: /node_modules/,
+                        options: {
+                            configFile: tsconfig // 여기에 원하는 파일 경로를 지정
+                        }
+                    }
+                ]
             }
         ]
     },
-
-    //module: {
-    //    rules: [
-    //        {
-    //            test: /\.ts?$/,
-    //            exclude: /node_modules/,
-    //            use: [
-    //                {
-    //                    loader: 'ts-loader',
-    //                    options: {
-    //                        configFile: './tsconfig.prod.json' // 여기에 원하는 파일 경로를 지정
-    //                    }
-    //                }
-    //            ]
-    //        }
-    //    ]
-    //},
     
 });

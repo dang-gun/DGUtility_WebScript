@@ -5,4 +5,7 @@
   <ItemGroup>
     <TypeScriptConfiguration Include="tsconfig.prod.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dist\production\" />
+  </ItemGroup>
 </Project>

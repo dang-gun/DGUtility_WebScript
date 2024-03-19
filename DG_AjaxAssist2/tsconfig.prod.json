@@ -5,7 +5,8 @@
     "lib": [ "es6", "dom" ],
     "outDir": "./dist/production/",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "declarationDir": "./dist/production"
   },
   "files": [
     //빌드에 사용할 파일

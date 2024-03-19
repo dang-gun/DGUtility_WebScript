@@ -16,6 +16,11 @@ export default class DGU_AjaxAssist2
 	/** 아작스 호출시 기본값으로 사용할 옵션 */
 	public CallOptionDefult: AjaxCallOptionModel;
 
+	/**
+	 * 개체를 초기화하면서 기본값으로 사용할 호출 옵션을 초기화 한다.
+	 * @param callOptionDefult 초기화에 사용할 기본 호출 옵션
+	 * 값이 없으면 임의로 세팅된 기본값을 사용한다.
+	 */
 	constructor(callOptionDefult?: AjaxCallOptionModel)
 	{
 		if (callOptionDefult)
@@ -27,7 +32,7 @@ export default class DGU_AjaxAssist2
 		else
 		{//없다.
 
-			//임의로 세팅된 기본값을 사요한다.
+			//임의로 세팅된 기본값을 사용한다.
 			this.CallOptionDefult = {
 				await: false,
 				contentGetType: AjaxCallContentGetType.Json,
