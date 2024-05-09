@@ -24,12 +24,18 @@
 <body>
     <h3>DG FlagEnum</h3>
     <br />
-    열거형 유틸<br />
-    <br />
+    <h4>플래그 열거형 유틸</h4>
     <p>콘솔 확인</p>
     <br />
     <br />
-    <p><button onclick="ToHtml(false)">html 생성</button><button onclick="ToHtml(true)">html 생성(기존값 복원)</button><button onclick="GetCheck()">데이터 받기</button></p>
+    <h4>UI로 확인</h4>
+    체크박스로 동작을 확인합니다.<br />
+               
+                    <p>
+                        <button onclick="ToHtml(false)">html 생성</button> : UI를 초기화 하고 생성합니다.<br />
+                        <button onclick="ToHtml(true)">html 생성(기존값 복원)</button> : '데이터 받기'를 눌러 저장된 값을 UI에 반영합니다.<br />
+                        <button onclick="GetCheck()">체크 값 확인</button> : UI에 체크된 값을 비트연산한 결과를 저장하고 알립니다.<br />
+                    </p>
     <br />
     <div id="divOutput">
     </div>
@@ -109,10 +115,10 @@
         //테스트 - 체크박스 그룹이름
         var sGroupName = "Auth3TypeGroup";
         //테스트 - 체크박스생성에 사용할 Html
-        var sCheckHtml = '<label>'
+        var sCheckHtml = ' <label>'
             + '<input type="checkbox" name="{{GroupName}}" value="{{value}}" {{checked}} />'
             + '<span>{{Name}}</span>'
-            + '</label>';
+            + '</label> ';
 
         //선택값 임시 저장
         var nValue = 0;
