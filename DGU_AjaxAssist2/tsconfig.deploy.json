@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es5",
+    "lib": [ "es5", "dom" ],
+
+    "rootDir": "./src/DGU_AjaxAssist2",
+    "outDir": "./dist/DGU_AjaxAssist2",
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "composite": true,
+
+
+    "declaration": true,
+    "declarationDir": "./dist/DGU_AjaxAssist2"
+  },
+  "include": [ "./src/DGU_AjaxAssist2/**/*.ts" ]
+}

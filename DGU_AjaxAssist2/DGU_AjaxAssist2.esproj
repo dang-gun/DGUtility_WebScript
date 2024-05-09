@@ -3,9 +3,10 @@
     <StartupCommand>npm run dev</StartupCommand>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptConfiguration Include="tsconfig.prod.json" />
+    <TypeScriptConfiguration Include="tsconfig.deploy.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="dist\production\" />
+    <Folder Include="dist\" />
+    <Folder Include="dist\DGU_AjaxAssist2\" />
   </ItemGroup>
 </Project>

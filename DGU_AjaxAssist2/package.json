@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "webpack-dev-server --mode development --hot",
-    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack serve --env development",
+
     "jsdoc": "jsdoc -c jsdoc.conf README.md",
-    "dev": "webpack serve --env development --config webpack.dev.js ",
-    "prod": "webpack --progress --profile --mode production"
+
+    "clean": "tsc --build --clean",
+    "packaging": "tsc --project tsconfig.deploy.json"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "^14.14.7",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
